@@ -1,94 +1,134 @@
 # Trading System Lab (Multi-Tier Architecture)
+This project is a simple trading dashboard that displays data from a database.
 
-## Overview
-
-This project is a multi-tier trading system designed to simulate a real-world enterprise architecture.
-
-It demonstrates how a frontend application, backend APi and dataase interact across segmented networks using a reverse proxy.
-
-### Technology Used
-- Nginx (Web server & Reverse Proxy)
-- Flask (Python API)
-- PostgreSQL (Database)
-- Linux (Multiple VMs)
-- systemd (Service managemnet)
+When a user clicks a button in the browser, the system retrieves trade data and displays it on the screen.
 
 ---
 
-## Architecture
+## What am I designing?
+This project is not just a website — it is a multi-tier system, meaning different parts of the application are separated and run on different machines.
 
+The goal is to simulate how real-world systems are built in companies.
 
-### Key Concept
-All API traffic is routed through Nginx using "/api", meaning the browser never directly communicates with the API server.
+Instead of everything running in one place, the system is split into:
 
-## Network Segmentation
+A web server (what the user sees)
+An API server (handles logic and data processing)
+A database (stores data)
+
+---
+
+## Why is it designed this way?
+In real systems:
+
+You do NOT want users directly accessing the database
+You do NOT want everything running on one machine
+You want clear separation between components
+
+This design improves:
+Security
+Scalability
+Maintainability
+
+---
+
+## What each part does
+### Web Server (Nginx)
+- Serves the website (HTML + JavaScript)
+- Acts as a gateway for API requests
+- Forwards /api requests to the API server
+
+---
+
+### API Server (Flask)
+- Receives requests from the web server
+- Processes logic
+- Queries the database
+- Returns data as JSON
+
+---
+
+### Database (PostgreSQL)
+- Stores trading data
+- Only accessible by the API server
+
+---
+
+## How the system works (step-by-step)
+1. User opens the website
+2. User clicks "Load Trades"
+3. JavaScript sends request to /api/trades
+4. Nginx receives the request
+5. Nginx forwards it to the API server
+6. Flask API queries the database
+7. Database returns data
+8. API sends JSON response back
+9. Browser displays the data
+
+---
+
+## Network Design
+The system is split across multiple networks:
 
 | Network | Purpose |
 |--------|--------|
 | 192.168.30.0/24 | Web Server & Trading VM |
 | 192.168.35.0/24 | API Server |
-| 192.168.40.0/24 | Database Server |
+| 192.168.40.0/24 | Database |
 | 192.168.50.0/24 | Management |
 
-### Security Design
-- Database is only accessible by the API server
-- API is accessed through the web server (reverse proxy)
-- Systems are separated across subnets
+This ensures:
+- Systems are isolated
+- Access can be controlled
+- The database is protected
 
 ---
 
-## Features
-Multi-VM architecture
-Reverse proxy routing (/api → API server)
-REST API built with Flask
-PostgreSQL database integration
-Interactive web dashboard
-Persistent API service using systemd
-Network segmentation between layers
+## Key Feature: Reverse Proxy
+The web server uses a **reverse proxy**:
+/api --> forwarded to API server
+
+This means:
+The browser never talks directly to the API
+All traffic goes through the web server
 
 ---
 
-## Request Flow
-User clicks "Load Trades" on the web interface
-JavaScript sends request to /api/trades
-Nginx receives the request on the Web VM
-Nginx forwards request to API server (192.168.35.20:5000)
-Flask API processes request and queries PostgreSQL
-Database returns data
-API returns JSON response
-Frontend displays the data
+Technologies Used
+Nginx (web server + reverse proxy)
+Flask (Python API)
+PostgreSQL (database)
+Linux VMs
+systemd (service management)
 
 ---
+## Challenges I Solved
+During development, I encountered and fixed:
 
-## Troubleshooting (Key Learnings)
-During development, several real-world issues were encountered and resolved:
-
-502 Bad Gateway (API not reachable)
-Flask binding issues (127.0.0.1 vs 0.0.0.0)
-Missing Python dependencies (flask, flask-cors, psycopg2)
-systemd service failures
-Frontend JavaScript errors (loadTrades not defined)
+API not reachable (502 Bad Gateway)
+Incorrect network binding (127.0.0.1 vs 0.0.0.0)
+Missing Python dependencies
+Service startup issues (systemd)
+Frontend JavaScript errors
 
 ---
 
 ## What I Learned
-Designing a multi-tier architecture
-Implementing reverse proxy with Nginx
-Debugging distributed systems across multiple machines
-Managing backend services with systemd
-Integrating frontend, API, and database layers
-Understanding network segmentation and service isolation
+How to design a multi-tier architecture
+How reverse proxies work
+How frontend, backend, and database interact
+Debugging across multiple systems
+Service management with systemd
 
 ---
 
 ## Future Improvements
-Implement API authentication (JWT / API key)
-Restrict API access using firewall rules (only Web → API)
-Add logging and monitoring
-Containerize services with Docker
-Add HTTPS (TLS encryption)
+Add authentication (JWT / API keys)
+Restrict API access with firewall rules
+Add monitoring and logging
+Use Docker for deployment
 
 ---
 
 ## Summary
-This project demonstrates how to build and troubleshoot a distributed system using industry-relevant architecture patterns. It reflects real-world challenges in networking, backend development, and system design.
+This project demonstrates how a simple application can be transformed into a structured, scalable system using real-world architecture principles.
