@@ -27,6 +27,7 @@ This lab demonstrates practical skills in:
 
 ## System Flow
 
+![Architecture Diagram](assets/architecture.png)
 1. User opens the web application in the browser  
 2. User clicks **“Load Trades”**  
 3. Browser sends a request to `/api/trades`  
@@ -35,7 +36,9 @@ This lab demonstrates practical skills in:
 6. Flask processes the request and queries the database  
 7. PostgreSQL returns the requested data  
 8. API formats and returns JSON response  
-9. Browser displays the trading data in the dashboard  
+9. Browser displays the trading data in the dashboard
+
+
 
 
 ## 🌐 Network Design
