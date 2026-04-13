@@ -2,21 +2,41 @@
 
 ## 📖 Overview
 
-The **Trading System Lab** is a multi-tier web application architecture designed to simulate an enterprise-style distributed system using isolated virtual networks.
+The **Trading System Lab** is a multi-tier web application architecture designed to simulate an enterprise-style distributed system using segmented virtual networks.
 
 The system allows users to view trading data stored in a PostgreSQL database through a simple web interface. When a user interacts with the frontend dashboard (e.g., clicking **“Load Trades”**), a request is processed across multiple isolated layers before the data is returned to the browser.
 
-At the core of the system, **Nginx acts as a reverse proxy**, serving as the single entry point for all client traffic while the API processes requests and interacts with the database.
-
-Each component is deployed on separate virtual machines within isolated networks which replicates a real-world production environment, emphasizing security, scalability, and separation of concerns.
+At the core of the system, **Nginx acts as a reverse proxy**, serving as the single entry point for all client traffic while the Flask API server processes requests and interacts with the database. Management network allows for direct remote management of the system.
 
 ---
 
+## ⭐ Tech Stack
+
+* Frontend: HTML, CSS, JavaScript
+* Web Server: Nginx
+* Backend: Python (Flask)
+* Database: PostgreSQL
+* Infrastructure: Virtual Machines, Isolated Networks
+* System Tools: systemd, Linux networking
+
+---
+## 🖥️ Virtual Machine Inventory
+
+| VM           | Role             | Network(s)                                    |
+|--------------|------------------|-----------------------------------------------|
+| `web-server` | Nginx / Frontend | Web Network                                |
+| `app-server` | Flask API        | API Network                                |
+| `db-server`  | PostgreSQL       | Database Network                           |
+| `Trader-VM`  | Dashboard testing| Web Network,    |
+| `Management-VM`| Management of servers/clients | Management Network                   |
+
+
+
+---
 ## 🎯 Purpose
 
 This lab demonstrates practical skills in:
 
-- Designing and implementing a multi-tier system with separated services across isolated networks
 - Network segmentation across virtual machines
 - SQL database configuration and access control
 - Separation of frontend, backend, and database layers
@@ -25,17 +45,18 @@ This lab demonstrates practical skills in:
 - Service management using `systemd`
 - Debugging distributed system issues across multiple nodes
 
-## System Flow
+--- 
+## 🔀 System Flow
 
 ![Architecture Diagram](assets/Architecture.png)
 1. User opens the web application in the browser  
 2. User clicks **“Load Trades”**  
 3. Browser sends a request to `/api/trades`  
 4. Nginx receives the request  
-5. Nginx forwards it to the Flask API   
+5. Nginx forwards it to the Flask API server 
 6. Flask processes the request and queries the database  
 7. PostgreSQL returns the requested data  
-8. API formats and returns JSON response  
+8. Flask API server formats the response as JSON and returns it
 9. Browser displays the trading data in the dashboard
 
 ---
@@ -51,27 +72,27 @@ This lab demonstrates practical skills in:
 
 ![Topology Diagram](assets/Network-topology.png)
 
-
+---
 ## 🏗️ System Architecture
 
 The system is structured into three main layers:
 
-
+---
 ### 🌐 Web Layer : Nginx 
 Provides a secure interface between external users and internal backend services
 
 - Serves static frontend files (HTML, CSS, JavaScript)
-- Acts as a reverse proxy for API requests, routing them to the Flask API server
+- Acts as a reverse proxy, routing API requests to the Flask API server
 - Serves as the single entry point for all client traffic
 
 ---
 
-### ⚙️ Aplication Layer: API server (Flask)
+### ⚙️ Application Layer: Flask API server (Flask)
 Handles all application logic and API functionality
 
 - Provides REST API endpoints
-- Handles business logic and request processing
-- Communicates with the database layer
+- Processes incoming requests from Nginx
+- Communicates with the PostgreSQL database
 - Returns structured JSON responses to the frontend
 
 ---
@@ -79,37 +100,27 @@ Handles all application logic and API functionality
 ### 🗄️ Data Layer: PostgreSQL server
 Stores and manages trading data
 
-- Stores structured trading data
-- Not exposed directly to users or external networks
-- Accessible only through the API layer and management network
-- Ensures data security and integrity
+- Maintains structured trading datasets
+- Is not directly exposed to external users or networks
+- Is accessible only through the Flask API server and management network
+- Ensures data integrity, consistency and security
+
+---
 
 ## 🧠 Key Design Decisions
 
-The system was designed with a strong focus on modularity, security, and realistic production-like architecture. A multi-tier approach was chosen to separate the Web, Application, and Database layers, ensuring that each component has a clearly defined responsibility. This improves maintainability, scalability, and fault isolation, as changes or failures in one layer do not directly impact the others.
+* Network segmentation was implemented using isolated subnets to reduce attack surface and enforce strict service-to-service communication.
+* Database isolation ensures PostgreSQL is not directly exposed, enforcing all access through the API layer for security and consistency.
+* Nginx reverse proxy acts as a single entry point, centralizing request routing and hiding backend infrastructure from external exposure.
+* Virtual machine separation was used to simulate a realistic distributed production environment with strong service isolation.
+* systemd service management ensures reliable startup, process control, and service persistence across system reboots.
 
-Network segmentation was implemented using separate subnets for each functional layer, including a dedicated management network. This reduces the attack surface and enforces strict control over how services communicate with each other. Only explicitly required traffic is allowed between networks, following a least-privilege communication model.
-
-The PostgreSQL database was intentionally isolated from direct external access to ensure that all data interactions occur through the API layer. This enforces consistent validation and business logic handling, preventing unauthorized or unfiltered access to sensitive data.
-
-Nginx was selected as a reverse proxy to serve as the single entry point into the system. This centralizes request handling, hides backend infrastructure from direct exposure, and simplifies routing between the frontend and API services.
-
-Each service runs on its own virtual machine to simulate a real-world distributed environment. This decision improves isolation between components and provides a more accurate representation of enterprise infrastructure compared to container-only or single-host setups.
-
-All services are managed using systemd to ensure reliability, automatic startup on boot, and consistent service control across the environment. This reflects standard practices in Linux-based production systems.
-
-
-### Benefits
-
-- Hides backend services from direct exposure  
-- Centralizes request routing and control  
-- Improves security and maintainability  
-- Enables scalable backend architecture
 
 ## 🧩 Challenges & Fixes
+Challanges and solutions encountered along the configuration
 
 ### ❌ 502 Bad Gateway
-- **Issue:** Nginx could not reach the API server  
+- **Issue:** Nginx could not reach the Flask API server  
 - **Fix:** Corrected upstream configuration and ensured Flask service was running  
 
 ### ❌ API Not Responding
