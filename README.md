@@ -1,4 +1,4 @@
-# 📌 Trading System Lab (VMware Multi-Tier Architecture)
+# 📌 Trading System Lab (Multi-Tier Architecture)
 
 ## 📖 Overview
 
@@ -27,7 +27,7 @@ This lab demonstrates practical skills in:
 
 ## System Flow
 
-![Architecture Diagram](assets/architecture.png)
+![Architecture Diagram](assets/Architecture.png)
 1. User opens the web application in the browser  
 2. User clicks **“Load Trades”**  
 3. Browser sends a request to `/api/trades`  
