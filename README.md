@@ -20,7 +20,7 @@ This lab demonstrates practical skills in:
 - Network segmentation across virtual machines
 - SQL database configuration and access control
 - Separation of frontend, backend, and database layers
-- API development and integration using **python**
+- API development and integration using **Python**
 - Reverse proxy configuration using Nginx
 - Service management using `systemd`
 - Debugging distributed system issues across multiple nodes
@@ -38,8 +38,7 @@ This lab demonstrates practical skills in:
 8. API formats and returns JSON response  
 9. Browser displays the trading data in the dashboard
 
-
-
+---
 
 ## 🌐 Network Design
 
@@ -80,7 +79,7 @@ The system is structured into three main layers:
 
 - Stores structured trading data
 - Not exposed directly to users or external networks
-- Accessible only through the API layer
+- Accessible only through the API layer and management network
 - Ensures data security and integrity
 
 --- 
