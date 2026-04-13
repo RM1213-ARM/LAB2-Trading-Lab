@@ -134,11 +134,11 @@ All services are managed using systemd to ensure reliability, automatic startup 
 
 This project provided hands-on experience with real-world infrastructure and system design concepts, including:
 
-- Building multi-tier distributed architectures  
-- Configuring reverse proxies with Nginx  
-- Managing Linux services with systemd  
+- Configuring SQL database, users and tables
+- Setting up reverse proxies with Nginx  
+- Configuring REST API
+- Managing Linux services with systemd
 - Debugging cross-network communication issues  
-- Designing secure network segmentation  
 - Integrating frontend, backend, and database systems  
 
 It also strengthened my ability to troubleshoot complex distributed systems in a structured and systematic way.
@@ -159,7 +159,7 @@ It also strengthened my ability to troubleshoot complex distributed systems in a
 
 ## 📄 Summary
 
-The Trading System Lab demonstrates how a simple web application can evolve into a structured multi-tier distributed system using real-world architecture principles.
+The Trading System Lab demonstrates how a simple web application from [LAB1](https://github.com/RM1213-ARM/LAB-1-Linux-Networking/tree/main) can evolve into a structured multi-tier distributed system using real-world architecture principles.
 
 By separating services into isolated network layers and deploying them across multiple virtual machines, this project demonstrates key concepts such as scalability, security, maintainability, and infrastructure design.
 
