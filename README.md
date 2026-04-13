@@ -6,7 +6,7 @@ The **Trading System Lab** is a multi-tier web application architecture designed
 
 The system allows users to view trading data stored in a PostgreSQL database through a simple web interface. When a user interacts with the frontend dashboard (e.g., clicking **“Load Trades”**), a request is processed across multiple isolated layers before the data is returned to the browser.
 
-At the core of the system, **Nginx acts as a reverse proxy**, serving as the single entry point for all client traffic while the API routes requests to the backend services.
+At the core of the system, **Nginx acts as a reverse proxy**, serving as the single entry point for all client traffic while the API handles requests to the backend services.
 
 Each component is deployed on separate virtual machines within isolated networks which replicates a real-world production environment, emphasizing security, scalability, and separation of concerns.
 
