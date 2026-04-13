@@ -49,7 +49,7 @@ This lab demonstrates practical skills in:
 | Database Network  | 192.168.40.0/24  | Data storage layer         |
 | Management Network| 192.168.50.0/24  | Administrative access      |
 
-![Topology Diagram](assets/Network-topology-diagram.png)
+![Topology Diagram](assets/Network-topology.png)
 
 ## 🏗️ System Architecture
 
