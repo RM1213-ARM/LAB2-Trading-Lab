@@ -32,7 +32,7 @@ This lab demonstrates practical skills in:
 2. User clicks **“Load Trades”**  
 3. Browser sends a request to `/api/trades`  
 4. Nginx receives the request  
-5. Nginx forwards it to the Flask API server  
+5. Nginx forwards it to the Flask API   
 6. Flask processes the request and queries the database  
 7. PostgreSQL returns the requested data  
 8. API formats and returns JSON response  
