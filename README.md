@@ -159,7 +159,7 @@ It also strengthened my ability to troubleshoot complex distributed systems in a
 
 ## 📄 Summary
 
-The Trading System Lab demonstrates how a simple web application from [LAB1](https://github.com/RM1213-ARM/LAB-1-Linux-Networking/tree/main) can evolve into a structured multi-tier distributed system using real-world architecture principles.
+The Trading System Lab demonstrates how a simple web application such as [LAB1](https://github.com/RM1213-ARM/LAB-1-Linux-Networking/tree/main) can evolve into a structured multi-tier distributed system using real-world architecture principles.
 
 By separating services into isolated network layers and deploying them across multiple virtual machines, this project demonstrates key concepts such as scalability, security, maintainability, and infrastructure design.
 
