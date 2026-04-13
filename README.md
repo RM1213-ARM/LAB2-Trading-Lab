@@ -84,12 +84,6 @@ The system is structured into three main layers:
 - Accessible only through the API layer and management network
 - Ensures data security and integrity
 
---- 
-### 🔁 Reverse Proxy (Nginx)
-
-Nginx is configured as a reverse proxy to route API traffic:
-/api --> Flask API Server
-
 ## 🧠 Key Design Decisions
 
 The system was designed with a strong focus on modularity, security, and realistic production-like architecture. A multi-tier approach was chosen to separate the Web, Application, and Database layers, ensuring that each component has a clearly defined responsibility. This improves maintainability, scalability, and fault isolation, as changes or failures in one layer do not directly impact the others.
