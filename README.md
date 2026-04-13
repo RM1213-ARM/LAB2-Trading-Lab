@@ -115,30 +115,37 @@ Stores and manages trading data
 * Virtual machine separation was used to simulate a realistic distributed production environment with strong service isolation.
 * systemd service management ensures reliable startup, process control, and service persistence across system reboots.
 
+---
 
-## 🧩 Challenges & Fixes
-Challanges and solutions encountered along the configuration
+## 📁 Repository Structure
+```
 
-### ❌ 502 Bad Gateway
-- **Issue:** Nginx could not reach the Flask API server  
-- **Fix:** Corrected upstream configuration and ensured Flask service was running  
-
-### ❌ API Not Responding
-- **Issue:** Flask bound to `127.0.0.1`  
-- **Fix:** Updated binding to `0.0.0.0` for network accessibility  
-
-### ❌ Missing Dependencies
-- **Issue:** Incomplete Python environment setup  
-- **Fix:** Installed required packages and verified virtual environment  
-
-### ❌ systemd Service Failures
-- **Issue:** Incorrect unit configuration or startup order  
-- **Fix:** Fixed service files and dependencies  
-
-### ❌ Frontend API Errors
-- **Issue:** Incorrect API endpoints in JavaScript  
-- **Fix:** Corrected request paths and debugged API calls  
-
+trading-system-lab/
+├── README.md
+├── assets/
+│   ├── Architecture.png
+│   └── Network-topology.png
+├── web-server/
+│   ├── README.md
+│   ├── nginx.conf
+│   ├── trading.conf
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+├── app-server/
+│   ├── README.md
+│   ├── app.py
+│   ├── requirements.txt
+│   └── flask-api.service
+├── db-server/
+│   ├── README.md
+│   ├── schema.sql
+│   ├── seed.sql
+│   └── pg_hba.conf
+└── network/
+    ├── README.md
+    └── network-design.md
+```
 ---
 
 ## 🧠 What I Learned
