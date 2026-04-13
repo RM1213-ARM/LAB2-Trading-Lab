@@ -6,7 +6,7 @@ The **Trading System Lab** is a multi-tier web application architecture designed
 
 The system allows users to view trading data stored in a PostgreSQL database through a simple web interface. When a user interacts with the frontend dashboard (e.g., clicking **“Load Trades”**), a request is processed across multiple isolated layers before the data is returned to the browser.
 
-At the core of the system, **Nginx acts as a reverse proxy**, serving as the single entry point for all client traffic while the API handles requests to the backend services.
+At the core of the system, **Nginx acts as a reverse proxy**, serving as the single entry point for all client traffic while the API processes requests and interacts with the database.
 
 Each component is deployed on separate virtual machines within isolated networks which replicates a real-world production environment, emphasizing security, scalability, and separation of concerns.
 
@@ -51,24 +51,23 @@ This lab demonstrates practical skills in:
 
 ![Topology Diagram](assets/Network-topology.png)
 
+
 ## 🏗️ System Architecture
 
 The system is structured into three main layers:
 
-- **Web Layer (Nginx)** – Serves the frontend and handles incoming requests  
-- **Application Layer (Flask API)** – Processes business logic and handles API requests  
-- **Data Layer (PostgreSQL)** – Stores and manages trading data  
 
-### 🌐 Web Server (Nginx)
+### 🌐 Web Layer : Nginx 
+Provides a secure interface between external users and internal backend services
 
 - Serves static frontend files (HTML, CSS, JavaScript)
-- Acts as a reverse proxy for API requests
-- Single entry point for all user traffic
-- Forwards requests to backend services securely
+- Acts as a reverse proxy for API requests, routing them to the Flask API server
+- Serves as the single entry point for all client traffic
 
 ---
 
-### ⚙️ API Server (Flask)
+### ⚙️ Aplication Layer: API server (Flask)
+Handles all application logic and API functionality
 
 - Provides REST API endpoints
 - Handles business logic and request processing
@@ -77,7 +76,8 @@ The system is structured into three main layers:
 
 ---
 
-### 🗄️ Database Server (PostgreSQL)
+### 🗄️ Data Layer: PostgreSQL server
+Stores and manages trading data
 
 - Stores structured trading data
 - Not exposed directly to users or external networks
