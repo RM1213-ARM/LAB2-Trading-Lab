@@ -1,3 +1,8 @@
+![Architecture](https://img.shields.io/badge/Architecture-Multi--Tier-blue?style=flat-square)
+![Stack](https://img.shields.io/badge/Stack-Nginx%20%7C%20Flask%20%7C%20PostgreSQL-green?style=flat-square)
+![Platform](https://img.shields.io/badge/Platform-VMware-lightgrey?style=flat-square)
+![Network](https://img.shields.io/badge/Network-Segmented-orange?style=flat-square)
+
 # 📌 Trading System Lab (Multi-Tier Architecture)
 
 ## 📖 Overview
