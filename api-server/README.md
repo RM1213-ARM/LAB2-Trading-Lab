@@ -12,7 +12,7 @@ All API requests are received via the web server (Nginx) and handled internally 
 
 | Property   | Value                          |
 |-----------|--------------------------------|
-| VM Name    | app-server                     |
+| VM Name    | robertapi                    |
 | OS         | Ubuntu                         |
 | Service    | Flask (Python API)             |
 | Network    | API Network (192.168.35.0/24)  |
