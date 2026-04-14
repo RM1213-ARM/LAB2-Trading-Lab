@@ -1,0 +1,64 @@
+<!-- Purpose: Frontend trading dashboard — this is the single page web interface served by Nginx.
+     What was configured:
+     - A button that triggers a JavaScript fetch request to /api/trades
+     - Nginx intercepts the request and proxies it to the Flask API at 192.168.35.20:5000
+     - The JSON response is dynamically rendered as an HTML table showing trade ID, symbol and price -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trading Dashboard</title>
+    <style>
+        body {
+            font-family: Tahoma, Verdana, Arial, sans-serif;
+            width: 600px;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Trading Dashboard</h1>
+
+<button onclick="loadTrades()">Load Trades</button>
+
+<pre id="output">Click button to load data</pre>
+
+<script>
+async function loadTrades() {
+    try {
+        const response = await fetch("/api/trades");
+        const data = await response.json();
+
+        let html = `
+        <table border="1" cellpadding="8" cellspacing="0">
+            <tr>
+                <th>ID</th>
+                <th>Symbol</th>
+                <th>Price</th>
+            </tr>
+        `;
+
+        data.forEach(trade => {
+            html += `
+            <tr>
+                <td>${trade.id}</td>
+                <td>${trade.symbol}</td>
+                <td>${trade.price}</td>
+            </tr>
+            `;
+        });
+
+        html += `</table>`;
+
+        document.getElementById("output").innerHTML = html;
+
+    } catch (error) {
+        document.getElementById("output").textContent = "Error: " + error;
+    }
+}
+</script>
+
+</body>
+</html>
