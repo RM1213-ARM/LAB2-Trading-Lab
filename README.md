@@ -149,7 +149,7 @@ trading-system-lab/
 │   ├── index.html
 │   ├── style.css
 │   └── app.js
-├── app-server/
+├── api-server/
 │   ├── README.md
 │   ├── app.py
 │   ├── requirements.txt
