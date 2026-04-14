@@ -77,6 +77,21 @@ Allows the API to:
                      
 ---
 
+## 🚀 Setup Instructions
+
+### 1. Install system dependencies
+bash
+sudo apt-get update
+sudo apt-get install python3 python3-pip libpq-dev python3-dev -y
+
+### 2. Install Python dependencies
+pip install -r requirements.txt
+
+### 3. Run the application
+python3 app.py
+
+---
+
 ## 🔌 API Endpoint Example
 
 ### `GET /api/trades`
