@@ -24,11 +24,11 @@ It is placed in a separate network layer and is **not directly accessible from t
 
 | File           | Purpose |
 |---------------|--------|
-| `schema.sql`  | Defines database structure (tables, columns, types) |
-| `seed.sql`    | Inserts initial/sample data into the database |
-| `pg_hba.conf` | Controls database access permissions and security rules |
-
+| `postgresql.conf` | Main configuration of PostgreSQL server (e.g port numbers, network settings)
+|  `pg_hba.conf` | Controls database access permissions and security rules|
 ---
+`pg_hba.conf` | Controls database access permissions and security rules |
+
 
 ## 🏗️ Database Structure
 
