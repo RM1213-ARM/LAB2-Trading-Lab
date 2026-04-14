@@ -14,7 +14,7 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 | OS             | Ubuntu                       |
 | Service        | Nginx                        |
 | Network        | Web Network (192.168.30.0/24)|
-| IP Address     | 192.168.30.x                 |
+| IP Address     | 192.168.30.10                |
 
 ---
 
