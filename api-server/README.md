@@ -52,6 +52,31 @@ All API requests are received via the web server (Nginx) and handled internally 
 
 ---
 
+Consists of 3 parts:
+
+1. Flask : a lightweight Python web framework that runs the REST API.
+
+Allows the user to:
+- Create API routes (e.g `/apt/trades`)
+- Handle requests from the web server
+- Send responses to frontedn in JSON format
+
+2. Flask-CORS: Allows frontend (browser) to talk to the API
+
+It is required because:
+- Frontend and backend run on different servers
+--> Browsers usually block cross-origin requests by default
+
+3. psycopg2-binary: a PostgreSQL adapter used to connect Python to database
+
+Allows the API to:
+- Run SQL queries
+- Get data from database
+- Send results to the frontend
+
+                     
+---
+
 ## 🔌 API Endpoint Example
 
 ### `GET /api/trades`
