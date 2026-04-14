@@ -25,8 +25,7 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 | `nginx.conf`    | Main Nginx configuration                     |
 | `trading.conf`  | Virtual host — static files & reverse proxy  |
 | `index.html`    | Frontend dashboard                           |
-| `style.css`     | Dashboard styling                            |
-| `app.js`        | Fetch logic — calls `GET /api/trades`        |
+
 
 ---
 
