@@ -144,21 +144,18 @@ trading-system-lab/
 │   └── Network-topology.png
 ├── web-server/
 │   ├── README.md
-│   ├── nginx.conf
-│   ├── trading.conf
-│   ├── index.html
-│   ├── style.css
-│   └── app.js
+│   ├── default.conf
+│   ├── index.nginx-debian.html
+│   ├── nginx.conf  
 ├── api-server/
 │   ├── README.md
+│   ├── api.service
 │   ├── app.py
-│   ├── requirements.txt
-│   └── flask-api.service
+│   └── requirements.txt
 ├── db-server/
 │   ├── README.md
-│   ├── schema.sql
-│   ├── seed.sql
-│   └── pg_hba.conf
+│   ├── pg_hba.conf
+│   ├── postgresql.conf
 └── network/
     ├── README.md
     └── network-design.md
