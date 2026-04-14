@@ -23,7 +23,7 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 | File            | Purpose                                      |
 |-----------------|----------------------------------------------|
 | `nginx.conf`    | Main Nginx configuration                     |
-| `trading.conf`  | Virtual host — static files & reverse proxy  |
+| `default.conf`  | Virtual host — static files & reverse proxy  |
 | `index.html`    | Frontend dashboard                           |
 
 
