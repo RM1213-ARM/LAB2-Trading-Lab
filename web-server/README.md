@@ -10,7 +10,7 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 
 | Property       | Value                        |
 |----------------|------------------------------|
-| VM Name        | `web-server`                 |
+| VM Name        | `robertweb`                 |
 | OS             | Ubuntu                       |
 | Service        | Nginx                        |
 | Network        | Web Network (192.168.30.0/24)|
