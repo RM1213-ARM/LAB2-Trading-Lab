@@ -72,15 +72,3 @@ sudo systemctl reload nginx
 ```
 
 ---
-
-## 📁 Files in This Directory
-
-```
-web-server/
-├── README.md
-├── nginx.conf
-├── trading.conf
-├── index.html
-├── style.css
-└── app.js
-```
