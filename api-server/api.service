@@ -1,0 +1,23 @@
+#This is a systemd service file used to run the Flask API server as a background service on Ubuntu.
+#It ensures that the API starts automatically, keeps running, and restarts if it crashes.
+
+[Unit]
+Description=Flask API Service
+After=network.target
+
+[Service]
+User=robertapi
+WorkingDirectory=/home/robertapi
+ExecStart=/usr/bin/python3 /home/robertapi/api-server/app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+#Instead of using python3 app.py
+
+#Use:
+  #sudo systemctl start api
+  #sudo systemctl stop api
+  #sudo systemctl status api
+  #sudo systemctl enable api
