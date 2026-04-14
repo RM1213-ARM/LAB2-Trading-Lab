@@ -92,8 +92,8 @@ Provides a secure interface between external users and internal backend services
 ### ⚙️ Application Layer — Flask API
 Handles all business logic and API functionality.
 
-- Exposes REST API endpoints (e.g. `GET /api/trades`)
 - Processes requests forwarded from Nginx
+- Exposes REST API endpoints (e.g. `GET /api/trades`)
 - Queries PostgreSQL and returns structured JSON responses
 - Isolated on its own network segment — not reachable directly from clients
 
@@ -103,34 +103,34 @@ Handles all business logic and API functionality.
 Stores and manages all trading data.
 
 - Maintains structured trading datasets
-- Not exposed to the Web Network or external clients
 - Accessible only via the Flask API server
+- Not exposed to the Web Network or external clients
 - Enforces data integrity, consistency, and security
 
 ---
 
 ## 🧠 Key Design Decisions & Security Considerations
 
-- **Network segmentation** — Isolated subnets enforce strict service-to-service communication boundaries, reducing the attack surface across all layers.
-- **Single ingress point** — Nginx centralises request routing and conceals backend infrastructure from external clients.
-- **Database isolation** — The API layer mediates all database access, preventing direct exposure and limiting lateral movement in the event of a breach.
-- **Principle of least privilege** — PostgreSQL is configured with a restricted user, granting the API read-only access to relevant tables only.
+- **Network segmentation** — Isolated subnets enforce strict communication boundaries, minimising the attack surface 
+- **Single ingress point** — Nginx centralises routing and conceals backend infrastructure from external clients.
+- **Database isolation** — The API mediates all database access, preventing direct exposure and lateral movement.
+- **Least privilege** — PostgreSQL uses a restricted user granting the API read-only access to relevant tables only.
 - **Management network separation** — Administrative SSH access is isolated from application traffic.
 - **VM-per-service architecture** — Each service runs on a dedicated VM, eliminating single-point-of-failure risks.
-- **systemd service management** — Guarantees reliable process control, startup ordering, and service persistence across reboots.
-
+- **systemd service management** — Ensures reliable process control and service persistence across reboots.
 ---
 
 ## 🔮 Future Improvements
 
-- Implement **JWT or API key authentication** to restrict API access to authorised clients only
-- Enforce **firewall rules** using `iptables` or `nftables` at each network boundary
-- Introduce **centralised audit logging** to record all API calls, database queries, and admin actions — essential for compliance and forensic review
-- Apply **Role-Based Access Control (RBAC)** to the database and API layers to enforce least-privilege access per service and user
-- Enable **encryption at rest** for the PostgreSQL data volume and **TLS in transit** between all services
-- Deploy **network monitoring and alerting** (e.g. Prometheus + Grafana) to detect anomalous traffic patterns
-- Containerise services using **Docker** for reproducible deployments and tighter resource isolation
 - Introduce **load balancing** at the web layer for horizontal scalability
+- Enforce **firewall rules** using `iptables` or `nftables` at each network boundary
+- Implement **JWT or API key authentication** to restrict API access to authorised clients only
+- Containerise services using **Docker** for reproducible deployments and tighter resource isolation
+- Introduce **centralised audit logging** to record all API calls, database queries, and admin actions
+- Enable **encryption at rest** for the PostgreSQL data volume and **TLS in transit** between all services
+- Apply **Role-Based Access Control (RBAC)** to the database and API layers to enforce least-privilege access 
+- Deploy **network monitoring and alerting** (e.g. Prometheus + Grafana) to detect anomalous traffic patterns
+
 
 ---
 
@@ -165,10 +165,3 @@ trading-system-lab/
 ```
 ---
 
-## 📄 Summary
-
-The Trading System Lab demonstrates how a simple web application can evolve into a structured multi-tier distributed system using real-world architecture principles.
-
-By separating services into isolated network layers and deploying them across multiple virtual machines, this project demonstrates key concepts such as scalability, security, maintainability, and infrastructure design.
-
-Overall, it serves as practical experience in building and managing enterprise-style distributed systems.
