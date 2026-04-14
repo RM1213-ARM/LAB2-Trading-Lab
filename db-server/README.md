@@ -86,11 +86,47 @@ This ensures the database is **not publicly exposed**.
 ## ⚙️ Setup Instructions
 
 ### 1. Install PostgreSQL
-
-```bash
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib -y
 
-### 2. Create the database
-sudo -u postgres psql
+### 2. Start service
+sudo systemctl enable postgresql
+sudo systemctl start postgresql
+
+### 3. Enter postgres user
+sudo -i -u postgres
+psql
+
+### 4. Create database and user
 CREATE DATABASE trading_sheet;
+CREATE USER trader WITH ENCRYPTED PASSWORD 'traderpass';
+GRANT ALL PRIVILEGES ON DATABASE trading_sheet TO trader;
+\q
+
+### 5. Connect to the database
+\c trading_sheet
+
+### 6. Create table
+CREATE TABLE trades (
+    id SERIAL PRIMARY KEY,
+    symbol VARCHAR(10),
+    price NUMERIC
+);
+
+### 7. Insert sample data 
+INSERT INTO trades(symbol, price)
+VALUES 
+('AAPL', 172.5),
+('GOOG', 2810.3);
+\q
+
+### 8. Edit network config
+sudo nano /etc/postgresql/16/main/postgresql.conf
+listen_addresses = '*'
+
+sudo nano /etc/postgresql/16/main/pg_hba.conf
+host    trading_sheet    trader    192.168.40.0/24    md5
+host    trading_sheet    trader    192.168.50.0/24    md5
+
+### 9. Restart service
+sudo systemctl restart postgresql
