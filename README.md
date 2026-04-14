@@ -3,128 +3,140 @@
 ![Platform](https://img.shields.io/badge/Platform-VMware-lightgrey?style=flat-square)
 ![Network](https://img.shields.io/badge/Network-Segmented-orange?style=flat-square)
 
-# 📌 Trading System Lab (Multi-Tier Architecture)
+# 📌 Trading System Lab — Multi-Tier Architecture
 
 ## 📖 Overview
 
-The **Trading System Lab** is a multi-tier web application architecture designed to simulate an enterprise-style distributed system using segmented virtual networks.
+The **Trading System Lab** is a multi-tier web application built in VMware, simulating an enterprise-style distributed system across segmented virtual networks.
 
-The system allows users to view trading data stored in a PostgreSQL database through a simple web interface. When a user interacts with the frontend dashboard (e.g., clicking **“Load Trades”**), a request is processed across multiple isolated layers before the data is returned to the browser.
+Users can view trading data stored in a PostgreSQL database through a simple web dashboard. When a user clicks **"Load Trades"**, the request travels across multiple isolated network layers before data is returned to the browser — mimicking real production architecture patterns.
 
-At the core of the system, **Nginx acts as a reverse proxy**, serving as the single entry point for all client traffic while the Flask API server processes requests and interacts with the database. Management network allows for direct remote management of the system.
+**Nginx** acts as the single entry point and reverse proxy, routing traffic to a **Flask API** server, which in turn queries the database. A dedicated management network enables direct administrative SSH access to all VMs.
 
 ---
 
 ## ⭐ Tech Stack
 
-* Frontend: HTML, CSS, JavaScript
-* Web Server: Nginx
-* Backend: Python (Flask)
-* Database: PostgreSQL
-* Infrastructure: Virtual Machines, Isolated Networks
-* System Tools: systemd, Linux networking
+| Layer          | Technology                        |
+|----------------|-----------------------------------|
+| Frontend       | HTML, CSS, JavaScript             |
+| Web Server     | Nginx (reverse proxy)             |
+| Backend        | Python (Flask)                    |
+| Database       | PostgreSQL                        |
+| Infrastructure | VMware, Isolated Virtual Networks |
+| System Tools   | systemd, Linux networking         |
 
 ---
-## 🖥️ Virtual Machine Inventory
 
-| VM           | Role             | Network(s)                                    |
-|--------------|------------------|-----------------------------------------------|
-| `web-server` | Nginx / Frontend | Web Network                                |
-| `app-server` | Flask API        | API Network                                |
-| `db-server`  | PostgreSQL       | Database Network                           |
-| `Trader-VM`  | Dashboard testing| Web Network,    |
-| `Management-VM`| Management of servers/clients | Management Network                   |
+## 🎯 Purpose & Demonstrated Competencies
 
+This lab demonstrates practical engineering skills across infrastructure, networking, and application development:
 
+- Designed and deployed a multi-tier distributed system across isolated virtual networks
+- Configured PostgreSQL with dedicated users, schemas, and access control policies
+- Built and secured an Nginx reverse proxy as a single ingress point for all client traffic
+- Developed a REST API in Python (Flask) with structured JSON responses
+- Diagnosed and resolved cross-network communication failures in a segmented environment
+- Managed Linux service lifecycles using `systemd` across multiple nodes
+- Integrated frontend, backend, and database layers into a cohesive production-style system
 
 ---
-## 🎯 Purpose
 
-This lab demonstrates practical skills in:
-
-- Network segmentation across virtual machines
-- SQL database configuration and access control
-- Separation of frontend, backend, and database layers
-- API development and integration using **Python**
-- Reverse proxy configuration using Nginx
-- Service management using `systemd`
-- Debugging distributed system issues across multiple nodes
-
---- 
-## 🔀 System Flow
+## ➡️ System Flow
 
 ![Architecture Diagram](assets/Architecture.png)
-1. User opens the web application in the browser  
-2. User clicks **“Load Trades”**  
-3. Browser sends a request to `/api/trades`  
-4. Nginx receives the request  
-5. Nginx forwards it to the Flask API server 
-6. Flask processes the request and queries the database  
-7. PostgreSQL returns the requested data  
-8. Flask API server formats the response as JSON and returns it
-9. Browser displays the trading data in the dashboard
+
+1. User opens the web application in the browser
+2. User clicks **"Load Trades"**
+3. Browser sends a `GET` request to `/api/trades`
+4. **Nginx** receives the request on the Web Network
+5. Nginx reverse-proxies the request to the Flask API server
+6. **Flask** processes the request and queries PostgreSQL
+7. **PostgreSQL** returns the requested trading records
+8. Flask formats the response as JSON and returns it to Nginx
+9. Nginx forwards the response back to the browser
+10. The dashboard renders the trading data
 
 ---
 
 ## 🌐 Network Design
 
-| Network            | Subnet            | Purpose                     |
-|------------------|------------------|----------------------------|
-| Web Network       | 192.168.30.0/24  | Web server & client access |
-| API Network       | 192.168.35.0/24  | Backend application layer  |
-| Database Network  | 192.168.40.0/24  | Data storage layer         |
-| Management Network| 192.168.50.0/24  | Administrative access      |
+| Network            | Subnet           | Purpose                    | VM(s)                     |
+|--------------------|------------------|----------------------------|---------------------------|
+| Web Network        | 192.168.30.0/24  | Web server & client access | `web-server`, `Trader-VM` |
+| API Network        | 192.168.35.0/24  | Backend application layer  | `app-server`              |
+| Database Network   | 192.168.40.0/24  | Data storage layer         | `db-server`               |
+| Management Network | 192.168.50.0/24  | Administrative access      | `Management-VM`           |
+
+> Each VM only has network interfaces for the segments it needs — enforcing strict service-to-service communication boundaries.
 
 ![Topology Diagram](assets/Network-topology.png)
 
 ---
+
 ## 🏗️ System Architecture
 
 The system is structured into three main layers:
 
 ---
-### 🌐 Web Layer : Nginx 
-Provides a secure interface between external users and internal backend services
+
+### 🌐 Web Layer — Nginx
+Provides a secure interface between external users and internal backend services.
 
 - Serves static frontend files (HTML, CSS, JavaScript)
-- Acts as a reverse proxy, routing API requests to the Flask API server
-- Serves as the single entry point for all client traffic
+- Acts as a reverse proxy, routing `/api/*` requests to the Flask API server
+- Single entry point for all client traffic — backend infrastructure is never exposed directly
 
 ---
 
-### ⚙️ Application Layer: Flask API server (Flask)
-Handles all application logic and API functionality
+### ⚙️ Application Layer — Flask API
+Handles all business logic and API functionality.
 
-- Provides REST API endpoints
-- Processes incoming requests from Nginx
-- Communicates with the PostgreSQL database
-- Returns structured JSON responses to the frontend
+- Exposes REST API endpoints (e.g. `GET /api/trades`)
+- Processes requests forwarded from Nginx
+- Queries PostgreSQL and returns structured JSON responses
+- Isolated on its own network segment — not reachable directly from clients
 
 ---
 
-### 🗄️ Data Layer: PostgreSQL server
-Stores and manages trading data
+### 🗄️ Data Layer — PostgreSQL
+Stores and manages all trading data.
 
 - Maintains structured trading datasets
-- Is not directly exposed to external users or networks
-- Is accessible only through the Flask API server and management network
-- Ensures data integrity, consistency and security
+- Not exposed to the Web Network or external clients
+- Accessible only via the Flask API server
+- Enforces data integrity, consistency, and security
 
 ---
 
-## 🧠 Key Design Decisions
+## 🧠 Key Design Decisions & Security Considerations
 
-* Network segmentation was implemented using isolated subnets to reduce attack surface and enforce strict service-to-service communication.
-* Database isolation ensures PostgreSQL is not directly exposed, enforcing all access through the API layer for security and consistency.
-* Nginx reverse proxy acts as a single entry point, centralizing request routing and hiding backend infrastructure from external exposure.
-* Virtual machine separation was used to simulate a realistic distributed production environment with strong service isolation.
-* systemd service management ensures reliable startup, process control, and service persistence across system reboots.
+- **Network segmentation** — Isolated subnets enforce strict service-to-service communication boundaries, reducing the attack surface across all layers.
+- **Single ingress point** — Nginx centralises request routing and conceals backend infrastructure from external clients.
+- **Database isolation** — The API layer mediates all database access, preventing direct exposure and limiting lateral movement in the event of a breach.
+- **Principle of least privilege** — PostgreSQL is configured with a restricted user, granting the API read-only access to relevant tables only.
+- **Management network separation** — Administrative SSH access is isolated from application traffic.
+- **VM-per-service architecture** — Each service runs on a dedicated VM, eliminating single-point-of-failure risks.
+- **systemd service management** — Guarantees reliable process control, startup ordering, and service persistence across reboots.
+
+---
+
+## 🔮 Future Improvements
+
+- Implement **JWT or API key authentication** to restrict API access to authorised clients only
+- Enforce **firewall rules** using `iptables` or `nftables` at each network boundary
+- Introduce **centralised audit logging** to record all API calls, database queries, and admin actions — essential for compliance and forensic review
+- Apply **Role-Based Access Control (RBAC)** to the database and API layers to enforce least-privilege access per service and user
+- Enable **encryption at rest** for the PostgreSQL data volume and **TLS in transit** between all services
+- Deploy **network monitoring and alerting** (e.g. Prometheus + Grafana) to detect anomalous traffic patterns
+- Containerise services using **Docker** for reproducible deployments and tighter resource isolation
+- Introduce **load balancing** at the web layer for horizontal scalability
 
 ---
 
 ## 📁 Repository Structure
-```
 
+```
 trading-system-lab/
 ├── README.md
 ├── assets/
@@ -153,36 +165,9 @@ trading-system-lab/
 ```
 ---
 
-## 🧠 What I Learned
-
-This project provided hands-on experience with real-world infrastructure and system design concepts, including:
-
-- Configuring SQL database, users and tables
-- Setting up reverse proxies with Nginx  
-- Configuring REST API
-- Managing Linux services with systemd
-- Debugging cross-network communication issues  
-- Integrating frontend, backend, and database systems  
-
-It also strengthened my ability to troubleshoot complex distributed systems in a structured and systematic way.
-
----
-
-## 🔮 Future Improvements
-
-- Add authentication (JWT or API keys)
-- Implement firewall rules using `iptables` or `nftables`
-- Add centralized logging and monitoring (ELK stack)
-- Containerize services using Docker
-- Introduce load balancing for scalability
-- Improve frontend UI/UX design
-- Add HTTPS/TLS encryption between services
-
----
-
 ## 📄 Summary
 
-The Trading System Lab demonstrates how a simple web application such as [LAB1](https://github.com/RM1213-ARM/LAB-1-Linux-Networking/tree/main) can evolve into a structured multi-tier distributed system using real-world architecture principles.
+The Trading System Lab demonstrates how a simple web application can evolve into a structured multi-tier distributed system using real-world architecture principles.
 
 By separating services into isolated network layers and deploying them across multiple virtual machines, this project demonstrates key concepts such as scalability, security, maintainability, and infrastructure design.
 
