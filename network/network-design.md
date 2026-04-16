@@ -48,14 +48,14 @@ The system is divided into isolated networks to simulate a secure, enterprise-st
 
 A dedicated Router VM connects all isolated network segments.
 
-- Each subnet uses the Router VM as its default gateway
-- The router has one network interface per subnet
+- Each subnet uses the Router  as its default gateway
+- The Router has one network interface per subnet
 - IP forwarding is enabled to allow inter-network communication
 
 All traffic between system layers flows through the router:
 
-- Web Server → API Server traffic is routed via the Router VM
-- API Server → Database traffic is routed via the Router VM
+- Web Server → API Server traffic is routed via the Router 
+- API Server → Database traffic is routed via the Router 
 
 This design centralises control and enables future firewall enforcement.
 
@@ -65,7 +65,7 @@ This design centralises control and enables future firewall enforcement.
 This section describes how the application request (e.g. `GET /api/trades`) traverses the network infrastructure.
 
 1. User connects to the Web Server (Nginx)
-2. Nginx sends API request to Router VM (Default Gateway)
+2. Nginx sends API request to Router (default gateway)
 3. Router forwards request to API Server
 4. API Server processes the request
 5. API Server sends database query via the Router
@@ -78,12 +78,12 @@ This section describes how the application request (e.g. `GET /api/trades`) trav
 
 ## 🔐 Security Design
 
-- Network-segmentation isolates each system layer
+- Network segmentation isolates each system layer
 - Database is not accessible from the Web Network
 - Database access is further restricted in `pg_hba.conf`
-- All inter-network traffic passes through the Router VM
+- All inter-network traffic passes through the Router 
 - Access between networks can be controlled via firewall rules on the router
-- Only API server and management network are permitted to communicate with SQL database  
+- Only the API server and management network are permitted to communicate with PostgreSQL database  
 
 ---
 
