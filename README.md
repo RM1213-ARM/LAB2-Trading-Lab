@@ -13,6 +13,8 @@ Users can view trading data stored in a PostgreSQL database through a simple web
 
 **Nginx** acts as the single entry point and reverse proxy, routing traffic to a **Flask API** server, which in turn queries the database. A dedicated management network enables direct administrative SSH access to all VMs.
 
+This system is fully segmented across multiple virtual networks, enforcing strict separation between presentation, application, and data layers.
+
 ---
 
 ## ⭐ Tech Stack
@@ -30,15 +32,16 @@ Users can view trading data stored in a PostgreSQL database through a simple web
 
 ## 🎯 Purpose & Demonstrated Competencies
 
-This lab demonstrates practical engineering skills across infrastructure, networking, and application development:
+This lab demonstrates practical skills in:
 
-- Designed and deployed a multi-tier distributed system across isolated virtual networks
-- Configured PostgreSQL with dedicated users, schemas, and access control policies
-- Built and secured an Nginx reverse proxy as a single ingress point for all client traffic
-- Developed a REST API in Python (Flask) with structured JSON responses
-- Diagnosed and resolved cross-network communication failures in a segmented environment
-- Managed Linux service lifecycles using `systemd` across multiple nodes
-- Integrated frontend, backend, and database layers into a cohesive production-style system
+- Managing services using systemd
+- Designing a multi-tier distributed system
+- Building a REST API using Python and Flask
+- Debugging cross-network communication issues
+- Implementing reverse proxy routing with Nginx
+- Configuring PostgreSQL with secure access controls
+- Integrating frontend, backend, and database layers
+- Configuring network segmentation in a virtualised environment
 
 ---
 
@@ -46,13 +49,13 @@ This lab demonstrates practical engineering skills across infrastructure, networ
 
 ![Architecture Diagram](assets/Architecture.png)
 
-1. User opens the web application in the browser
-2. User clicks **"Load Trades"**
+1. User opens the web application (browser)
+2. User clicks **"Load Trades"** button on UI
 3. Browser sends a `GET` request to `/api/trades`
 4. **Nginx** receives the request on the Web Network
 5. Nginx reverse-proxies the request to the Flask API server
-6. **Flask** processes the request and queries PostgreSQL
-7. **PostgreSQL** returns the requested trading records
+6. **Flask** processes the request and queries PostgreSQL database
+7. **PostgreSQL** returns the requested trading records to Flask API
 8. Flask formats the response as JSON and returns it to Nginx
 9. Nginx forwards the response back to the browser
 10. The dashboard renders the trading data
