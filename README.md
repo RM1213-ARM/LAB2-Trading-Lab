@@ -64,22 +64,24 @@ This lab demonstrates practical skills in:
 
 ## 🌐 Network Design
 
-| Network            | Subnet           | Purpose                    | VM(s)                     |
-|--------------------|------------------|----------------------------|---------------------------|
-| Web Network        | 192.168.30.0/24  | Web server & client access | `web-server`, `Trader-VM` |
-| API Network        | 192.168.35.0/24  | Backend application layer  | `app-server`              |
-| Database Network   | 192.168.40.0/24  | Data storage layer         | `db-server`               |
-| Management Network | 192.168.50.0/24  | Administrative access      | `Management-VM`           |
+The system is divided into multiple isolated network segments to separate the web, API, and database layers.  
+This ensures controlled communication between services and reduces the attack surface.
 
-> Each VM only has network interfaces for the segments it needs — enforcing strict service-to-service communication boundaries.
+For a detailed breakdown of subnets, VM placement, and security design, see:  
+👉 [Network Design](network/network-design.md)
 
 ![Topology Diagram](assets/Network-topology.png)
 
 ---
+## 🧩 Architecture Style
 
-## 🏗️ System Architecture
+This system follows a three-tier architecture pattern with strict network segmentation:
 
-The system is structured into three main layers:
+- **Presentation Layer** (Nginx + Frontend)
+- **Application Layer** (Flask API)
+- **Data Layer** (PostgreSQL)
+
+Each layer is isolated in a separate subnet and communicates only through controlled network paths.
 
 ---
 
@@ -125,14 +127,15 @@ Stores and manages all trading data.
 
 ## 🔮 Future Improvements
 
-- Introduce **load balancing** at the web layer for horizontal scalability
-- Enforce **firewall rules** using `iptables` or `nftables` at each network boundary
-- Implement **JWT or API key authentication** to restrict API access to authorised clients only
-- Containerise services using **Docker** for reproducible deployments and tighter resource isolation
-- Introduce **centralised audit logging** to record all API calls, database queries, and admin actions
-- Enable **encryption at rest** for the PostgreSQL data volume and **TLS in transit** between all services
-- Apply **Role-Based Access Control (RBAC)** to the database and API layers to enforce least-privilege access 
-- Deploy **network monitoring and alerting** (e.g. Prometheus + Grafana) to detect anomalous traffic patterns
+- **Load balancing** at the web layer 
+- Enable **TLS encryption** between all layers
+- Implement firewall rules using `iptables` / `nftables`
+- JWT or API **key authentication** (authorised clients only)
+- Introduce **monitoring** (e.g Prometheus + Grafana) to detect anomalous traffic patterns
+- **Conainerise** services using Docker for reproducible deployments and resource isolation
+- Add Role-Based Access Control **(RBAC)** to enforce least-priviledge access accross layers
+- Centralised **audit logging** to record all APi calls, database queries and admin actions (ELK)
+
 
 
 ---
