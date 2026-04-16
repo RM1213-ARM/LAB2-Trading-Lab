@@ -2,7 +2,7 @@
 
 ## 📖 Overview
 
-The web server runs **Nginx** on Ubuntu, acting as the single entry point for all client traffic. It serves the static frontend files and reverse proxies all `/api/*` requests to the Flask API server on the API Network.
+The web server runs **Nginx** on Ubuntu, acting as the single entry point for all client traffic. It serves the static frontend files and reverse proxies all `/api/*` requests to the Flask API server on the API Network (192.168.35.0/24)
 
 ---
 
@@ -10,10 +10,11 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 
 | Property       | Value                        |
 |----------------|------------------------------|
-| VM Name        | robertweb                 |
+| VM Name        | robertweb                    |
 | OS             | Ubuntu                       |
 | Service        | Nginx                        |
-| Network        | Web Network (192.168.30.0/24)|
+| Network        | Web Network                  |
+| Gateway        | 192.168.30.1                 |
 | IP Address     | 192.168.30.10                |
 
 ---
@@ -32,10 +33,11 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 ## ➡️ Request Flow
 
 1. Client sends a `GET` request to the web server
-2. Nginx checks the request path:
+2. Nginx evaluates the request path:
    - `/` → serves static frontend files
    - `/api/*` → reverse proxies to Flask API at `192.168.35.20`
-3. Response is returned to the client
+3. Flask processes the request and returns a response
+4. Nginx forwards the response back to the client
 
 ---
 
