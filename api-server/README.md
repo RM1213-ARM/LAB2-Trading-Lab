@@ -11,11 +11,12 @@ All API requests are received via the web server (Nginx) and handled internally 
 ## ⭐ Role in Architecture
 
 | Property   | Value                          |
-|-----------|--------------------------------|
-| VM Name    |robertapi                   |
+|-----------|---------------------------------|
+| VM Name    | robertapi                      |
 | OS         | Ubuntu                         |
 | Service    | Flask (Python API)             |
-| Network    | API Network (192.168.35.0/24)  |
+| Network    | API Network                    |
+| Gateway    | 192.168.35.1                   |
 | IP Address | 192.168.35.20                  |
 
 ---
@@ -32,13 +33,13 @@ All API requests are received via the web server (Nginx) and handled internally 
 
 ## ➡️ Request Flow
 
-1. Nginx forwards `/api/*` requests to the Flask API server  
+1. Nginx forwards `/api/*` requests to the Flask API server 
 2. Flask receives the request (e.g. `GET /api/trades`)  
 3. Application logic is executed  
-4. Flask queries the PostgreSQL database  
+4. Flask queries the PostgreSQL database 
 5. Database returns results  
 6. Flask formats the data as JSON  
-7. Response is sent back to Nginx  
+7. Response is sent back to Nginx (via Router)
 8. Nginx returns the response to the client  
 
 ---
@@ -61,7 +62,7 @@ Allows the user to:
 - Handle requests from the web server
 - Send responses to frontedn in JSON format
 
-2. Flask-CORS: Allows frontend (browser) to talk to the API
+2. Flask-CORS: Allows frontend (browser) to talk to the API Server
 
 It is required because:
 - Frontend and backend run on different servers
@@ -69,7 +70,7 @@ It is required because:
 
 3. psycopg2-binary: a PostgreSQL adapter used to connect Python to database
 
-Allows the API to:
+Allows the API Server to:
 - Run SQL queries
 - Get data from database
 - Send results to the frontend
