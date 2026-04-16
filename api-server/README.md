@@ -90,12 +90,12 @@ sudo apt-get update
 sudo apt-get install python3 python3-pip libpq-dev python3-dev -y
 ```
 ### 2. Install Python dependencies
-```
+```bash
 pip install -r requirements.txt
 ```
 
 ### 3. Run the application
-```
+```bash
 python3 app.py
 ```
 ---
