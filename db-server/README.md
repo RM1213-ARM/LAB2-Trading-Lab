@@ -15,7 +15,7 @@ It is placed in a separate network layer and is **not directly accessible from t
 | VM Name    | robertdatabase                     |
 | OS         | Ubuntu                            |
 | Service    | PostgreSQL                        |
-| Network    | Database Network (192.168.40.0/24) |
+| Network    | Database Network |
 | IP Address | 192.168.40.20                    |
 
 ---
