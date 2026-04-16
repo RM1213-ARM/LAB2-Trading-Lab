@@ -116,26 +116,33 @@ Stores and manages all trading data.
 
 ## 🧠 Key Design Decisions & Security Considerations
 
-- **Network segmentation** — Isolated subnets enforce strict communication boundaries, minimising the attack surface 
-- **Single ingress point** — Nginx centralises routing and conceals backend infrastructure from external clients.
-- **Database isolation** — The API mediates all database access, preventing direct exposure and lateral movement.
-- **Least privilege** — PostgreSQL uses a restricted user granting the API read-only access to relevant tables only.
-- **Management network separation** — Administrative SSH access is isolated from application traffic.
-- **VM-per-service architecture** — Each service runs on a dedicated VM, eliminating single-point-of-failure risks.
-- **systemd service management** — Ensures reliable process control and service persistence across reboots.
+- **Single ingress point**: Nginx acts as the secure entry point
+- **Least privilege**: PostgreSQL is not publicly exposed; API has restricted read access
+- **Database isolation**: The API mediates all database access, preventing direct exposure
+- **Management network separation**: Administrative SSH access is isolated from application traffic
+- **systemd service management**: Ensures reliable process control and service persistence across reboots
+
 ---
 
 ## 🔮 Future Improvements
 
 - **Load balancing** at the web layer 
 - Enable **TLS encryption** between all layers
-- Implement firewall rules using `iptables` / `nftables`
+- Implement **firewall rules** using `iptables` / `nftables`
 - JWT or API **key authentication** (authorised clients only)
 - Introduce **monitoring** (e.g Prometheus + Grafana) to detect anomalous traffic patterns
 - **Conainerise** services using Docker for reproducible deployments and resource isolation
 - Add Role-Based Access Control **(RBAC)** to enforce least-priviledge access accross layers
 - Centralised **audit logging** to record all APi calls, database queries and admin actions (ELK)
 
+---
+
+## 🔗 Component Documentation
+
+- 🌐 [Web Server](web-server/README.md)
+- ⚙️ [API Server](api-server/README.md)
+- 🗄️ [Database Server](db-server/README.md)
+- 🌐 [Network Design](network/network-design.md)
 
 
 ---
