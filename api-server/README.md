@@ -60,7 +60,7 @@ The API Server consists of the following components:
 A lightweight Python web framework used to build the REST API
 
 Capabilities:
-- Define API routes (e.g `/apt/trades`)
+- Define API routes (e.g `/api/trades`)
 - Handle HTTP requests from the web server
 - Return JSON responses to frontend
 
