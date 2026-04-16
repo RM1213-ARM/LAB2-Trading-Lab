@@ -62,7 +62,7 @@ This design centralises control and enables future firewall enforcement.
 ---
 
 ## 🔁 Communication Flow
-The following steps describe how requests traverse the network.
+This section describes how the application request (e.g. `GET /api/trades`) traverses the network infrastructure.
 
 1. User connects to the Web Server (Nginx)
 2. Nginx sends API request to Router VM (Default Gateway)
