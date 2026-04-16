@@ -33,47 +33,51 @@ All API requests are received via the web server (Nginx) and handled internally 
 
 ## ➡️ Request Flow
 
-1. Nginx forwards `/api/*` requests to the Flask API server 
-2. Flask receives the request (e.g. `GET /api/trades`)  
-3. Application logic is executed  
-4. Flask queries the PostgreSQL database 
-5. Database returns results  
-6. Flask formats the data as JSON  
-7. Response is sent back to Nginx (via Router)
-8. Nginx returns the response to the client  
+1. Flask receives the request (e.g. `GET /api/trades`)  
+2. Application logic is executed  
+3. Flask queries the PostgreSQL database 
+4. Database returns results  
+5. Flask formats the data as JSON  
+6. Response is sent back to Nginx (via Router)
 
 ---
 
 ## ⚙️ Application Behaviour
 
 - REST API — exposes endpoints such as `/api/trades`  
+- Request handling - processes incoming HTTP requests from Nginx
 - Data processing — handles request logic and formatting  
-- Database interaction — queries PostgreSQL for trading data  
+- Database access — queries PostgreSQL for trading data  
 - JSON responses — returns structured data to the frontend  
 
 ---
 
-Consists of 3 parts:
+## 📦 Core Dependencies
 
-1. Flask : a lightweight Python web framework that runs the REST API.
+The API Server consists of the following components:
 
-Allows the user to:
-- Create API routes (e.g `/apt/trades`)
-- Handle requests from the web server
-- Send responses to frontedn in JSON format
+### 1. Flask 
+A lightweight Python web framework used to build the REST API
 
-2. Flask-CORS: Allows frontend (browser) to talk to the API Server
+Capabilities:
+- Define API routes (e.g `/apt/trades`)
+- Handle HTTP requests from the web server
+- Return JSON responses to frontend
+
+### 2. Flask-CORS
+Enables Cross-Origin Resource Sharing 
 
 It is required because:
 - Frontend and backend run on different servers
---> Browsers usually block cross-origin requests by default
+- Browsers usually block cross-origin requests by default
 
-3. psycopg2-binary: a PostgreSQL adapter used to connect Python to database
+### 3. psycopg2-binary 
+A PostgreSQL adapter for Python
 
-Allows the API Server to:
-- Run SQL queries
-- Get data from database
-- Send results to the frontend
+Used to:
+- Execute SQL queries
+- Retrieve data from the database
+- Return results to the API layer
 
                      
 ---
