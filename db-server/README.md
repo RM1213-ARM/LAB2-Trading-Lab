@@ -4,21 +4,20 @@
 
 The database server runs PostgreSQL and stores all trading data used by the system.
 
-It is placed in a separate network layer and is **not directly accessible from the web layer**. Access is controlled through the API server and management network to ensure security and data integrity.
-
-Access is restricted to the API Server via the API Network only.
+It is placed in a separate network layer and is not directly accessible from the **Web network**. Access is allowed from the API Server and controlled by the management network to ensure security and data integrity.
 
 ---
 
 ## ⭐ Role in Architecture
 
-| Property   | Value                              |
-|-----------|------------------------------------|
-| VM Name    | robertdatabase                     |
+| Property   | Value                             |
+|------------|-----------------------------------|
+| VM Name    | robertdatabase                    |
 | OS         | Ubuntu                            |
 | Service    | PostgreSQL                        |
-| Network    | Database Network |
-| IP Address | 192.168.40.20                    |
+| Network    | Database Network                  |
+| Gateway    | 192.168.40.1                      |
+| IP Address | 192.168.40.20                     |
 
 ---
 
@@ -26,30 +25,27 @@ Access is restricted to the API Server via the API Network only.
 
 | File           | Purpose |
 |---------------|--------|
-| `postgresql.conf` | Configure server settings (port, network binding, performance)|
-| `pg_hba.conf` | Control authentication and access rules|
+| `postgresql.conf` | Configures server settings (port, network binding, performance)|
+| `pg_hba.conf` | Defines authentication and access rules|
 ---
-
 ## 🔐 Access Control
 
-### `pg_hba.conf`
+Database access is restricted using `pg_hba.conf`.
 
-This file defines who is allowed to connect to the PostgreSQL database.
+- Only the API Server is allowed to connect to PostgreSQL  
+- Management network access is permitted for administration  
+- All other connections are denied  
 
-It is used to:
-- Restrict access to only the API server network
-- Block direct external access to the database
-- Define authentication rules for users
-
-This ensures the database is **not publicly exposed**.
+This ensures the database is not publicly exposed.
 
 ---
 
 ## 🔁 Data Flow
 
-1. API server sends SQL query to PostgreSQL  
-2. PostgreSQL processes the query  
-3. Results are returned to the API server  
+1. PostgreSQL receives a SQL query from the API Server  
+2. The query is parsed and executed  
+3. Data is retrieved or modified within the database  
+4. Results are returned to the API Server
 
 ---
 
