@@ -6,6 +6,8 @@ The database server runs PostgreSQL and stores all trading data used by the syst
 
 It is placed in a separate network layer and is **not directly accessible from the web layer**. Access is controlled through the API server and management network to ensure security and data integrity.
 
+Access is restricted to the API Server via the API Network only.
+
 ---
 
 ## ⭐ Role in Architecture
@@ -24,11 +26,9 @@ It is placed in a separate network layer and is **not directly accessible from t
 
 | File           | Purpose |
 |---------------|--------|
-| `postgresql.conf` | Main configuration of PostgreSQL server (e.g port numbers, network settings)
-|  `pg_hba.conf` | Controls database access permissions and security rules|
+| `postgresql.conf` | Configure server settings (port, network binding, performance)|
+| `pg_hba.conf` | Control authentication and access rules|
 ---
-`pg_hba.conf` | Controls database access permissions and security rules |
-
 
 ## 🏗️ Database Structure
 
@@ -42,19 +42,6 @@ It is used to:
 - Organize how trading data is stored
 
 Example: a `trades` table stores trading records such as symbol and price.
-
----
-
-## 🌱 Seed Data
-
-### `seed.sql`
-
-This file inserts initial data into the database.
-
-It is used to:
-- Populate the database with sample trading records
-- Allow the API server to return meaningful results immediately
-- Help with testing and development
 
 ---
 
@@ -76,10 +63,8 @@ This ensures the database is **not publicly exposed**.
 ## 🔁 Data Flow
 
 1. API server sends SQL query to PostgreSQL  
-2. Database processes the request  
+2. PostgreSQL processes the query  
 3. Results are returned to the API server  
-4. API formats data into JSON  
-5. Response is sent to the frontend  
 
 ---
 
@@ -90,7 +75,7 @@ This ensures the database is **not publicly exposed**.
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib -y 
 ```
-### 2. Start service
+### 2. Enable and start service
 ```bash
 sudo systemctl enable postgresql
 sudo systemctl start postgresql
@@ -133,7 +118,7 @@ INSERT INTO trades(symbol, price)
    \q
 ```
 
-### 8. Edit network config
+### 8. Configure network access
 ```bash
 sudo nano /etc/postgresql/16/main/postgresql.conf
 ```
@@ -147,7 +132,7 @@ sudo nano /etc/postgresql/16/main/pg_hba.conf
 host    trading_sheet    trader    192.168.40.0/24    md5
 host    trading_sheet    trader    192.168.50.0/24    md5
 ```
-### 9. Restart service
+### 9. Restart PostgreSQL service
 ```bash
 sudo systemctl restart postgresql
 ```
