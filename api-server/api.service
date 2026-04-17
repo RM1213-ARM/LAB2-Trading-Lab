@@ -7,12 +7,18 @@ After=network.target
 
 [Service]
 User=robertapi
-WorkingDirectory=/home/robertapi
+WorkingDirectory=/home/robertapi/api-server/
 ExecStart=/usr/bin/python3 /home/robertapi/api-server/app.py
 Restart=always
 
+Environment="DB_HOST=192.168.40.20"
+Environment="DB_NAME=trading_sheet"
+Environment="DB_USER=trader"
+Environment="DB_PASS=traderpass"
+
 [Install]
 WantedBy=multi-user.target
+
 
 #Instead of using python3 app.py
 
