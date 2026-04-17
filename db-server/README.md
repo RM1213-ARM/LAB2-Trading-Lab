@@ -28,6 +28,19 @@ It is placed in a separate network layer and is not directly accessible from the
 | `postgresql.conf` | Configures server settings (port, network binding, performance)|
 | `pg_hba.conf` | Defines authentication and access rules|
 ---
+
+## ⚙️ Database Responsibilities
+
+PostgreSQL is responsible for:
+
+- Storing structured trading data in tables  
+- Executing SQL queries (SELECT, INSERT, UPDATE)  
+- Ensuring data integrity through constraints (e.g. primary keys)  
+- Managing concurrent access from clients  
+- Handling authentication and connection control
+
+---
+
 ## 🔐 Access Control
 
 Database access is restricted using `pg_hba.conf`.
