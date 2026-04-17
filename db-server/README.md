@@ -30,21 +30,6 @@ Access is restricted to the API Server via the API Network only.
 | `pg_hba.conf` | Control authentication and access rules|
 ---
 
-## 🏗️ Database Structure
-
-### `schema.sql`
-
-This file defines the structure of the database.
-
-It is used to:
-- Create tables
-- Define columns and data types
-- Organize how trading data is stored
-
-Example: a `trades` table stores trading records such as symbol and price.
-
----
-
 ## 🔐 Access Control
 
 ### `pg_hba.conf`
