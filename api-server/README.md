@@ -18,10 +18,11 @@ All API requests are received via the web server (Nginx) and handled internally 
 | Network    | API Network                    |
 | Gateway    | 192.168.35.1                   |
 | IP Address | 192.168.35.20                  |
+| Port       | 5000                           |
 
 ---
 
-## 📂 Files
+## 📂 Configuration Files
 
 | File               | Purpose |
 |--------------------|--------|
