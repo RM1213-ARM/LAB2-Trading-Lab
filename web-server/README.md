@@ -21,25 +21,46 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 
 ---
 
-## 📂 Files
+## 📂 Configuration Files
 
-| File            | Purpose                                      |
-|-----------------|----------------------------------------------|
-| `nginx.conf`    | Main Nginx configuration                     |
-| `default.conf`  | Virtual host — static files & reverse proxy  |
-| `index.html`    | Frontend dashboard                           |
-
+| File            | Location | Purpose                                      |
+|-----------------|----------|----------------------------------------------|
+| `nginx.conf`    | `/etc/nginx/nginx.conf` | Main Nginx configuration (global settings) |
+| `default.conf`  | `/etc/nginx/sites-available/default` | Virtual host — static files & reverse proxy |
+| `index.html`    | `/var/www/html/index.html` | Frontend dashboard (served by Nginx) |
 
 ---
 
 ## ➡️ Request Flow
 
-1. Client sends HTTP `GET` request to the web server
-2. Nginx evaluates the request path:
-   - `/` → serves static frontend files
-   - `/api/*` → reverse proxies to Flask API at `192.168.35.20`
-3. Flask processes the request and returns a response
-4. Nginx forwards the response back to the client
+### Scenario: User clicks "Load Trades" button
+ ```
+Browser                    Nginx                   Flask API              PostgreSQL
+  │                          │                         │                      │
+  ├─ GET /api/trades ────→ │                         │                      │
+  │                          ├─ Forward to ────→     │                      │
+  │                          │ 192.168.35.20:5000    │                      │
+  │                          │                        ├─ SELECT * ────→     │
+  │                          │                        │ FROM trades         │
+  │                          │                        │←─ [rows] ──────     │
+  │                          │←─ JSON response ──     │                      │
+  │←─ [trades table] ─────  │                        │                      │
+  │                          │                        │                      │
+```
+**Detailed steps:**
+
+1. **Browser sends request** → `GET http://192.168.30.10/api/trades`
+2. **Nginx receives request** on port 80
+3. **Nginx evaluates the path:**
+   - Matches `location /api/` rule
+   - **Strips** `/api` from the URL (due to trailing slash in `proxy_pass`)
+4. **Nginx forwards to Flask** → `GET http://192.168.35.20:5000/trades`
+   - Includes headers: `X-Real-IP`, `X-Forwarded-For` (preserves client info)
+5. **Flask processes request** → Queries PostgreSQL
+6. **PostgreSQL returns data** → Flask formats as JSON
+7. **Nginx receives response** from Flask
+8. **Nginx forwards response** back to browser
+9. **Browser renders** the trades table
 
 ---
 
