@@ -5,60 +5,578 @@
      - The JSON response is dynamically rendered as an HTML table showing trade ID, symbol and price -->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Trading Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Dashboard — Enterprise Architecture Lab</title>
     <style>
+        :root {
+            --primary-dark: #1e293b;
+            --primary-light: #0f172a;
+            --accent-blue: #0ea5e9;
+            --accent-blue-dark: #0284c7;
+            --success-green: #10b981;
+            --danger-red: #ef4444;
+            --warning-amber: #f59e0b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --border-light: #e5e7eb;
+            --bg-light: #f9fafb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Tahoma, Verdana, Arial, sans-serif;
-            width: 600px;
-            margin: 50px auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent-blue));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            opacity: 0.95;
+            margin-bottom: 0.75rem;
+        }
+
+        .lab-info {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Content Section */
+        .content {
+            padding: 2.5rem 2rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--accent-blue-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-primary);
+            border: 1.5px solid var(--border-light);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--border-light);
+            border-color: var(--text-secondary);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid var(--success-green);
+        }
+
+        .status-error {
+            background: #fee2e2;
+            color: #7f1d1d;
+            border-left: 4px solid var(--danger-red);
+        }
+
+        .status-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .status-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        /* Table Styles */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        thead {
+            background: var(--bg-light);
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 0.95rem;
+        }
+
+        tbody tr:hover {
+            background: var(--bg-light);
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Column Styles */
+        .col-id {
+            font-weight: 600;
+            color: var(--accent-blue);
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .col-symbol {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .col-price {
+            font-weight: 600;
+            color: var(--success-green);
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state-text {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Stats Footer */
+        .stats-footer {
+            display: flex;
+            gap: 2rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--border-light);
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .content {
+                padding: 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .lab-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .stats-footer {
+                gap: 1rem;
+            }
         }
     </style>
 </head>
-
 <body>
+    <div class="container">
+        <header>
+            <h1>📈 Trading Dashboard</h1>
+            <p class="subtitle">Multi-Tier Architecture Lab</p>
+            <div class="lab-info">
+                <div class="info-item">
+                    <span class="badge">Nginx → Flask → PostgreSQL</span>
+                </div>
+                <div class="info-item">
+                    <span class="badge">Network Segmented</span>
+                </div>
+                <div class="info-item">
+                    <span class="badge">Enterprise Architecture</span>
+                </div>
+            </div>
+        </header>
 
-<h1>Trading Dashboard</h1>
+        <div class="content">
+            <!-- Controls -->
+            <div class="controls">
+                <button class="btn-primary" id="loadBtn" onclick="loadTrades()">
+                    <span id="btnIcon">🔄</span>
+                    <span id="btnText">Load Trades</span>
+                </button>
+                <button class="btn-secondary" onclick="clearTrades()">Clear Data</button>
+            </div>
 
-<button onclick="loadTrades()">Load Trades</button>
+            <!-- Status Message -->
+            <div id="statusBox"></div>
 
-<pre id="output">Click button to load data</pre>
+            <!-- Table or Empty State -->
+            <div id="output"></div>
 
-<script>
-async function loadTrades() {
-    try {
-        const response = await fetch("/api/trades");
-        const data = await response.json();
+            <!-- Statistics -->
+            <div id="stats" style="display: none;">
+                <div class="stats-footer">
+                    <div class="stat">
+                        <span class="stat-label">Total Records</span>
+                        <span class="stat-value" id="recordCount">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Data Source</span>
+                        <span class="stat-value" style="font-size: 1rem; color: var(--accent-blue);">PostgreSQL</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">API Endpoint</span>
+                        <span class="stat-value" style="font-size: 0.9rem; color: var(--text-secondary);">/api/trades</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        let html = `
-        <table border="1" cellpadding="8" cellspacing="0">
-            <tr>
-                <th>ID</th>
-                <th>Symbol</th>
-                <th>Price</th>
-            </tr>
-        `;
+    <script>
+        async function loadTrades() {
+            const btn = document.getElementById('loadBtn');
+            const btnIcon = document.getElementById('btnIcon');
+            const btnText = document.getElementById('btnText');
+            const statusBox = document.getElementById('statusBox');
+            const output = document.getElementById('output');
+            const stats = document.getElementById('stats');
 
-        data.forEach(trade => {
-            html += `
-            <tr>
-                <td>${trade.id}</td>
-                <td>${trade.symbol}</td>
-                <td>${trade.price}</td>
-            </tr>
-            `;
-        });
+            // Disable button and show loading state
+            btn.disabled = true;
+            btnIcon.innerHTML = '<span class="spinner"></span>';
+            btnText.textContent = 'Loading...';
+            statusBox.innerHTML = '';
+            output.innerHTML = '';
+            stats.style.display = 'none';
 
-        html += `</table>`;
+            try {
+                // Fetch from the API (Nginx will proxy this to Flask)
+                const response = await fetch('/api/trades', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
 
-        document.getElementById("output").innerHTML = html;
+                // Check if response is OK
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
 
-    } catch (error) {
-        document.getElementById("output").textContent = "Error: " + error;
-    }
-}
-</script>
+                const data = await response.json();
 
+                // Handle empty result
+                if (!Array.isArray(data) || data.length === 0) {
+                    statusBox.innerHTML = `
+                        <div class="status-message status-info">
+                            <span class="status-icon">ℹ️</span>
+                            <span>No trades found in the database. Check your PostgreSQL seed data.</span>
+                        </div>
+                    `;
+                    output.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <div class="empty-state-title">No Data Available</div>
+                            <div class="empty-state-text">The database contains no trading records.</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Success! Build the table
+                statusBox.innerHTML = `
+                    <div class="status-message status-success">
+                        <span class="status-icon">✅</span>
+                        <span>Successfully loaded <strong>${data.length}</strong> trade record${data.length !== 1 ? 's' : ''}</span>
+                    </div>
+                `;
+
+                let html = `
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Symbol</th>
+                                    <th>Price (USD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                // Add each trade as a row
+                data.forEach((trade, index) => {
+                    const price = parseFloat(trade.price).toFixed(2);
+                    html += `
+                        <tr>
+                            <td class="col-id">#${trade.id}</td>
+                            <td class="col-symbol">${escapeHtml(trade.symbol)}</td>
+                            <td class="col-price">$${price}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+
+                output.innerHTML = html;
+                stats.style.display = 'block';
+                document.getElementById('recordCount').textContent = data.length;
+
+            } catch (error) {
+                // Show error message
+                statusBox.innerHTML = `
+                    <div class="status-message status-error">
+                        <span class="status-icon">❌</span>
+                        <div>
+                            <strong>Failed to load trades</strong><br>
+                            <small>${escapeHtml(error.message)}</small><br>
+                            <small style="opacity: 0.8;">
+                                Verify: Nginx is running on 192.168.30.10 → Flask is running on 192.168.35.20:5000 → PostgreSQL is running on 192.168.40.20
+                            </small>
+                        </div>
+                    </div>
+                `;
+                output.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <div class="empty-state-title">Connection Failed</div>
+                        <div class="empty-state-text">Could not retrieve data from the API. Check the server logs for more information.</div>
+                    </div>
+                `;
+                stats.style.display = 'none';
+            } finally {
+                // Re-enable button and restore normal state
+                btn.disabled = false;
+                btnIcon.innerHTML = '🔄';
+                btnText.textContent = 'Load Trades';
+            }
+        }
+
+        function clearTrades() {
+            document.getElementById('output').innerHTML = '';
+            document.getElementById('statusBox').innerHTML = '';
+            document.getElementById('stats').style.display = 'none';
+        }
+
+        // Utility to prevent XSS attacks
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Load trades automatically on page load (optional)
+        // Uncomment to auto-load:
+        // window.addEventListener('load', loadTrades);
+    </script>
 </body>
 </html>
