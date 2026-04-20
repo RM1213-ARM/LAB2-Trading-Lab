@@ -81,20 +81,110 @@ Browser                    Nginx                   Flask API              Postgr
 
 ---
 
-## 🔧 Service Management
+## 🚀 Setup Instructions
+
+### 1. Install Nginx
 
 ```bash
-# Start Nginx
+sudo apt update
+sudo apt install nginx -y
+```
+
+### 2. Replace the Virtual Host Configuration
+
+Copy your `default.conf` to:
+
+```bash
+sudo cp default.conf /etc/nginx/sites-available/default
+```
+
+### 3. Place Frontend Files
+
+Copy your `index.html` to the web root:
+
+```bash
+sudo cp index.html /var/www/html/index.html
+```
+
+If you have CSS or JavaScript files:
+```bash
+sudo cp style.css /var/www/html/style.css
+sudo cp app.js /var/www/html/app.js
+```
+
+### 4. Validate Nginx Configuration
+
+Before restarting, verify the syntax is correct:
+
+```bash
+sudo nginx -t
+```
+
+**Expected output:**
+```
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+```
+
+If there are errors, fix them before continuing!
+
+### 5. Start and Enable Nginx
+
+```bash
+# Start the service
 sudo systemctl start nginx
 
 # Enable on boot
 sudo systemctl enable nginx
 
-# Check status
+# Verify it's running
+sudo systemctl status nginx
+```
+
+### 6. Test Connectivity
+
+**From any machine with network access to 192.168.30.10:**
+
+```bash
+# Test static file serving
+curl http://192.168.30.10
+
+# Should return HTML content of index.html
+```
+
+**Open in browser:**
+```
+http://192.168.30.10
+```
+
+You should see the "Trading Dashboard" with a "Load Trades" button.
+
+---
+
+## 🔧 Service Management
+
+```bash
+# View current status
 sudo systemctl status nginx
 
-# Reload config without downtime
+# Start Nginx
+sudo systemctl start nginx
+
+# Stop Nginx
+sudo systemctl stop nginx
+
+# Restart (stops then starts)
+sudo systemctl restart nginx
+
+# Reload configuration without downtime
+# This gracefully restarts only workers, keeps connections alive
 sudo systemctl reload nginx
+
+# Enable auto-start on boot
+sudo systemctl enable nginx
+
+# Disable auto-start on boot
+sudo systemctl disable nginx
 ```
 
 ---
