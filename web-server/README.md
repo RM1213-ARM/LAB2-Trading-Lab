@@ -34,7 +34,7 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 
 ## ➡️ Request Flow
 
-1. Client sends a `GET` request to the web server
+1. Client sends HTTP `GET` request to the web server
 2. Nginx evaluates the request path:
    - `/` → serves static frontend files
    - `/api/*` → reverse proxies to Flask API at `192.168.35.20`
@@ -55,6 +55,7 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 
 - Backend API server is not reachable from the Web Network directly
 - Nginx acts as a barrier — clients only ever communicate with the web server
+- Only HTTP (port 80) is exposed externally.
 - No database credentials or backend logic are present on this VM
 
 ---
