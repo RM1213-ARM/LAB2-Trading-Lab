@@ -70,7 +70,7 @@ This ensures controlled communication between services and reduces the attack su
 For a detailed breakdown of subnets, VM placement, and security design, see:  
 👉 [Network Design](network/network-design.md)
 
-![Topology Diagram](assets/Network-topology.png)
+![Topology Diagram](assets/Topology.png)
 
 ---
 ## 🧩 Architecture Style
