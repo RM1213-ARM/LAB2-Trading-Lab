@@ -89,4 +89,4 @@ This section describes how the application request (e.g. `GET /api/trades`) trav
 
 ## 🖼️ Network Diagram
 
-![Network Topology](/assets/Network-topology.png)
+![Network Topology](/assets/Topology.png)
