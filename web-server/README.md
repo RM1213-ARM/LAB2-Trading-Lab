@@ -16,6 +16,8 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 | Network        | Web Network                  |
 | Gateway        | 192.168.30.1                 |
 | IP Address     | 192.168.30.10                |
+| Listening Port | 80 (HTTP)                    |
+
 
 ---
 
