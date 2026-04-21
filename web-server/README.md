@@ -35,16 +35,16 @@ The web server runs **Nginx** on Ubuntu, acting as the single entry point for al
 
 ### Scenario: User clicks "Load Trades" button
  ```
-Browser                    Nginx                   Flask API              PostgreSQL
-  │                          │                         │                      │
-  ├─ GET /api/trades ────→ │                         │                      │
-  │                          ├─ Forward to ────→     │                      │
-  │                          │ 192.168.35.20:5000    │                      │
-  │                          │                        ├─ SELECT * ────→     │
-  │                          │                        │ FROM trades         │
-  │                          │                        │←─ [rows] ──────     │
-  │                          │←─ JSON response ──     │                      │
-  │←─ [trades table] ─────  │                        │                      │
+Browser                    Nginx                  Flask API              PostgreSQL
+  │                          │                        │                      │
+  ├─ GET /api/trades ────→                            │                      │
+  │                          ├─ Forward to ────→                             │
+  │                          │ 192.168.35.20:5000     │                      │
+  │                          │                        ├─ SELECT * ────→       
+  │                          │                        │ FROM trades          │
+  │                          │                         ←─ [rows] ──────       
+  │                           ←─ JSON response ──     │                      │
+  │←─ [trades table] ─────   │                        │                      │
   │                          │                        │                      │
 ```
 **Detailed steps:**
