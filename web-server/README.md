@@ -2,7 +2,7 @@
 
 ## 📖 Overview
 
-The web server runs **Nginx** on Ubuntu, acting as the single entry point for all client traffic. It serves the static frontend files and reverse proxies all `/api/*` requests to the Flask API server on the API Network (192.168.35.0/24)
+The web server runs **Nginx** on Ubuntu, acting as the single entry point for all client traffic. It serves the static frontend files and reverse proxies all `/api/*` requests initiated on the dashboard and sends it to the Flask API server on the API Network (192.168.35.0/24)
 
 ---
 
