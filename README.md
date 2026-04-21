@@ -73,7 +73,7 @@ For a detailed breakdown of subnets, VM placement, and security design, see:
 ![Topology Diagram](assets/Topology.png)
 
 ---
-## 🧩 Architecture Style
+# 🧩 Architecture Style
 
 This system follows a three-tier architecture pattern with strict network segmentation:
 
