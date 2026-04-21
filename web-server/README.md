@@ -57,10 +57,11 @@ Browser                    Nginx                  Flask API              Postgre
 4. **Nginx forwards to Flask** → `GET http://192.168.35.20:5000/trades`
    - Includes headers: `X-Real-IP`, `X-Forwarded-For` (preserves client info)
 5. **Flask processes request** → Queries PostgreSQL
-6. **PostgreSQL returns data** → Flask formats as JSON
-7. **Nginx receives response** from Flask
-8. **Nginx forwards response** back to browser
-9. **Browser renders** the trades table
+6. - `Select * FROM trading_sheet`
+7. **PostgreSQL returns data** → Flask formats as JSON
+8. **Nginx receives response** from Flask
+9. **Nginx forwards response** back to browser
+10. **Browser renders** the trades table
 
 ---
 
