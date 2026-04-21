@@ -78,7 +78,7 @@ Database access is restricted using `pg_hba.conf` (PostgreSQL Host-Based Authent
 
 **Important:** The `trader` user can only **SELECT** (read) data, not INSERT/UPDATE/DELETE. This prevents accidental or malicious data modifications from the application layer.
 
-### Access Rules Explained
+### Access Rules 
 
 ```conf
 # TYPE  DATABASE        USER            ADDRESS             METHOD
