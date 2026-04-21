@@ -108,9 +108,9 @@ Handles all business logic and API functionality.
 Stores and manages all trading data.
 
 - Maintains structured trading datasets
-- Accessible only via the Flask API server
 - Not exposed to the Web Network or external clients
 - Enforces data integrity, consistency, and security
+- Accessible only via the Flask API server and management VM
 
 ---
 
