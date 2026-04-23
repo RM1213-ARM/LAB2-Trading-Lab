@@ -4,7 +4,7 @@
 
 Firewall rules enforce **least privilege** by explicitly allowing only necessary traffic between network layers and blocking everything else.
 
-![Architecture Diagram](assets/Firewall.png)
+![Firewall](../assets/Firewall.png)
 
 ## Network Access Requirements
 
