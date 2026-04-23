@@ -125,11 +125,8 @@ nc -zv <destination_ip> <port>
 ```
  
 ### Verify What's Allowed
- 
-```bash
-# UFW
-sudo ufw show added
- 
+
+```
 # iptables
 sudo iptables -L -n -v
 sudo iptables -L -n -v --line-numbers
