@@ -140,27 +140,20 @@ sudo iptables -L -n -v --line-numbers
 2. **Test after each rule** — don't apply 10 rules at once
 3. **Document why each rule exists** — add comments
 4. **Use specific IPs** — not 0.0.0.0/0 unless necessary
-5. **SSH first** — always allow SSH from management before other rules
-6. **Monitor rejected traffic** — `sudo tail -f /var/log/syslog | grep REJECT`
-7. **Automate with Ansible** — don't manually configure each VM
+5. **Monitor rejected traffic** — `sudo tail -f /var/log/syslog | grep REJECT`
+6. **Automate with Ansible** — don't manually configure each VM
 ---
  
 ## Common Mistakes
  
 | Mistake | Impact | Fix |
 |---------|--------|-----|
-| Block SSH before allowing it | Locked out | Use VM console to fix |
-| Default deny without allow rules | Nothing works | Add ACCEPT rules first |
-| Block loopback (lo) | Services can't communicate internally | Always allow `lo` interface |
-| Forget return traffic | Outbound works, inbound fails | Allow ESTABLISHED,RELATED |
-| Rules not persistent | Settings lost on reboot | Use netfilter-persistent or ufw enable |
+| Blocking loopback (lo) | Services can't communicate internally | Always allow `lo` interface |
+| Forgetting return traffic | Outbound works, inbound fails | Allow ESTABLISHED,RELATED |
+| Small Typos | Rules don't work | Set rules carefully and troubleshoot|
  
 ---
  
 ## Security Notes
  
-- These rules assume internal network traffic is trusted
-- For untrusted networks, encrypt traffic with TLS
-- Consider DDoS protection on internet-facing (port 80) machine
-- Monitor logs for suspicious connection attempts
-- Regularly audit firewall rules for unnecessary entries
+- Traffic between devices in the same network will not be filtered as they do not pass through the Router VM.
