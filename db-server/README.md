@@ -196,7 +196,7 @@ This tells PostgreSQL to:
 Find the section with IPv4 local connections and **update these lines** (change `/24` to `/32`):
 ```
 ```conf
-host    trading_sheet    trader    192.168.35.20/32    md5
+host    trading_sheet    trader    192.168.35.20/32   md5
 host    trading_sheet    trader    192.168.50.10/32   md5
 ```
 
