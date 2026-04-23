@@ -7,13 +7,16 @@
 
 ## 📖 Overview
 
-The **Trading System Lab** is a multi-tier web application built in VMware, simulating an enterprise-style distributed system across segmented virtual networks.
+The **Trading System Lab** is a fully deployed multi-tier web application running in VMware that simulates a production-style distributed system.
 
-Users can view trading data stored in a PostgreSQL database through a simple web dashboard. When a user clicks **"Load Trades"**, the request travels across multiple isolated network layers before data is returned to the browser — mimicking real production architecture patterns.
+When a user clicks **"Load Trades"**, a request is processed end-to-end and returns trading data from a PostgreSQL database to the web dashboard.
 
-**Nginx** acts as the single entry point and reverse proxy, routing traffic to a **Flask API** server, which in turn queries the database. A dedicated management network enables direct administrative SSH access to all VMs.
+The system is built using:
+- **Nginx** as a reverse proxy and entry point
+- **Flask API** for application logic
+- **PostgreSQL** for data storage
 
-This system is fully segmented across multiple virtual networks, enforcing strict separation between presentation, application, and data layers.
+Each service runs on a separate virtual network, with controlled communication between layers.
 
 ---
 
@@ -44,18 +47,6 @@ This system is fully segmented across multiple virtual networks, enforcing stric
 8. Flask formats the response as JSON and returns it to Nginx
 9. Nginx forwards the response back to the browser
 10. The dashboard renders the trading data
-
----
-
-## 🌐 Network Design
-
-The system is divided into multiple isolated network segments to separate the web, API, and database layers.  
-This ensures controlled communication between services and reduces the attack surface.
-
-For a detailed breakdown of subnets, VM placement, and security design, see:  
-👉 [Network Design](network/network-design.md)
-
-![Topology Diagram](assets/Topology.png)
 
 ---
 # 🧩 Architecture Style
