@@ -9,7 +9,10 @@
 ```bash
 # Enable IP forwarding
 sudo nano /etc/sysctl.conf
+#Add
 net.ipv4.ip_forward=1
+#After editing, apply changes
+sudo sysctl -p
  
 # Set default policies
 sudo iptables -P FORWARD DROP
