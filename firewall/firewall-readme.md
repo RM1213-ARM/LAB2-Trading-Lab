@@ -27,21 +27,6 @@ Firewall rules enforce **least privilege** by explicitly allowing only necessary
 - **Inbound:** Port 22 (SSH) from anywhere (or restrict to your IP)
 - **Outbound:** All ports to all servers
 
----
-
-## Threat Model
-
-Without firewall rules:
-- ❌ Web server could directly access database (bypasses API security)
-- ❌ Any compromised VM can attack any other VM
-- ❌ No audit trail of which layer communicated with which
-
-With firewall rules:
-- ✅ Web layer isolated from database layer
-- ✅ API layer is the only path to data
-- ✅ Attack surface is contained if one layer is compromised
-
----
 
 ## Traffic Flow (What Should Be Allowed)
 
@@ -69,6 +54,18 @@ Everything else = **BLOCKED**
 
 ---
 
+## Threat Model
+
+Without firewall rules:
+- ❌ Web server could directly access database (bypasses API security)
+- ❌ Any compromised VM can attack any other VM
+- ❌ No audit trail of which layer communicated with which
+
+With firewall rules:
+- ✅ Web layer isolated from database layer
+- ✅ API layer is the only path to data
+- ✅ Attack surface is contained if one layer is compromised
+
 ## Why Layer to Layer?
 
 | Scenario | Without Rules | With Rules |
@@ -76,4 +73,8 @@ Everything else = **BLOCKED**
 | Web server compromised | Attacker can query DB directly | Attacker blocked, only has API access |
 | API server compromised | Attacker can accept arbitrary commands | Attacker limited to database only |
 | Database compromised | Attacker can probe other networks | Attacker can't reach web layer |
+
+---
+
+
 
