@@ -29,22 +29,22 @@ It serves a static HTML dashboard and reverse proxies API requests to the Flask 
 |-----------------|----------|----------------------------------------------|
 | `nginx.conf`    | `/etc/nginx/nginx.conf` | Main Nginx configuration (global settings) |
 | `default.conf`  | `/etc/nginx/sites-available/default` | Virtual host — static files & reverse proxy |
-| `index.html`    | `/var/www/html/index.html` | Frontend dashboard (served by Nginx) |
+| `index.nginx-debian.html`    | `/var/www/html/index.html` | Frontend dashboard (served by Nginx) |
 
 ---
 
 ## ⚙️ Core Responsibilities
 
 - Serves static HTML dashboard (`index.nginx-debian.html`)
-- Acts as a reverse proxy for `/api/*` requests to 
-- Routes API traffic to the Flask backend (`http://192.168.35.20:5000`)
-- Provides the single external entry point into the system
+- Acts as a reverse proxy for `/api/*` requests 
+- Forwards API traffic to the Flask backend (`http://192.168.35.20:5000`)
+- Provides the only external entry point into the system
 
 ---
 
 ## ➡️ Request Flow
 
-### A typical request to retrieve trading data follows this path:
+### A request to retrieve trading data follows this path:
  ```
 Browser                    Nginx                  Flask API              PostgreSQL
   │                          │                        │                      │
