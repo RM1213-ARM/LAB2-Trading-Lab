@@ -8,8 +8,8 @@
  
 ```bash
 # Enable IP forwarding
-sudo sysctl -w net.ipv4.ip_forward=1
-echo "net.ipv4.ip_forward=1" | sudo tee -a /etc/sysctl.conf
+sudo nano /etc/sysctl.conf
+net.ipv4.ip_forward=1
  
 # Set default policies
 sudo iptables -P FORWARD DROP
