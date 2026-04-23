@@ -1,6 +1,8 @@
 #This is a systemd service file used to run the Flask API server as a background service on Ubuntu.
 #It ensures that the API starts automatically, keeps running, and restarts if it crashes.
 
+#Replace file paths with your own.
+
 [Unit]
 Description=Flask API Service
 After=network.target
