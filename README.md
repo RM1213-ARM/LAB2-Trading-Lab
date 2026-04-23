@@ -118,10 +118,10 @@ This project demonstrates:
 
 ## 🔗 Component Documentation
 
+- 🖥️ [Network Design](network/network-design.md)
 - 🌐 [Web Server](web-server/README.md)
 - ⚙️ [API Server](api-server/README.md)
 - 🗄️ [Database Server](db-server/README.md)
-- 🖥️ [Network Design](network/network-design.md)
 - 🌐 [Firewall Design](firewall/firewall-readme.md)
 
 
