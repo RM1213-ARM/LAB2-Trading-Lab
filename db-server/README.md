@@ -4,7 +4,7 @@
 
 The database server runs PostgreSQL and stores all trading data used by the system.
 
-It is placed in a separate network layer and is not directly accessible from the **Web network**. Access is allowed from the API Server and controlled by the management network to ensure security and data integrity.
+It is deployed in an isolated Database Network and is not directly accessible from the **Web network**. Access is restricted to the API Server and Management Network to ensure security and data integrity.
 
 ---
 
@@ -18,7 +18,7 @@ It is placed in a separate network layer and is not directly accessible from the
 | Network    | Database Network                  |
 | Gateway    | 192.168.40.1                      |
 | IP Address | 192.168.40.20                     |
-| Port       | 5432 (default)                    |
+| Port       | 5432                              |
 
 ---
 
@@ -33,14 +33,12 @@ It is placed in a separate network layer and is not directly accessible from the
 
 PostgreSQL is responsible for:
 
-- **Data storage**: Storing structured trading data in tables with ACID guarantees
-- **Query execution**: Processing SQL queries (SELECT, INSERT, UPDATE, DELETE)
-- **Data integrity**: Enforcing constraints (primary keys, unique constraints, foreign keys)
-- **Concurrent access**: Managing multiple simultaneous connections safely
-- **Authentication**: Validating user credentials before allowing connections
-- **Authorization**: Controlling which users can access which databases and tables
+- Storing structured trading data
+- Handling authentication and autorization
+- Managing concurrent database connections 
+- Processing SQL queries (SELECT, INSERT, UPDATE, DELETE)
+- Enforcing data integrity (primary keys, constraints)
 
----
 
 ## 📊 Database Schema
 
