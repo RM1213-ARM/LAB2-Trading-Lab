@@ -14,7 +14,7 @@ net.ipv4.ip_forward=1
 #After editing, apply changes
 sudo sysctl -p
  
-# Set default policies
+# Set default DROP policy
 sudo iptables -P FORWARD DROP
  
 # Allow Web → API (port 5000)
