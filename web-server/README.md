@@ -77,8 +77,7 @@ Browser                    Nginx                  Flask API              Postgre
 
 ## 🔒 Security Considerations
 
-- Backend API server is not reachable from clients
-- Only HTTP (Port 80) is exposed externally
+- Backend API server is not reachable from clients (only HTTP [Port 80] is exposed externally)
 - Nginx acts as a controlled gateway to backend services
 - No database credentials or backend logic are present on this VM
 
