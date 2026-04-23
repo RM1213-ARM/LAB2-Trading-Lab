@@ -51,28 +51,28 @@ Each service runs on a separate virtual network, with controlled communication b
 ---
 # 🧩 Architecture Style
 
-This system follows a three-tier architecture deployed across insolated virtual networks:
+This system follows a three-tier architecture deployed across isolated virtual networks:
 
-- **Presentation Layer** - (Nginx + Frontend)
-- **Application Layer** - (Flask API)
-- **Data Layer** - (PostgreSQL)
+- **Presentation Layer** - Nginx + Frontend
+- **Application Layer** - Flask API
+- **Data Layer** - PostgreSQL
 
-Each layer is isolated in a separate subnet and communicates only through controlled network paths.
+Each layer runs on a separate subnet and communicates through controlled network paths.
 
 ### 🌐 Web Layer — Nginx
 Provides a secure interface between external users and internal backend services.
 - Serves static frontend files (HTML, CSS, JavaScript)
 - Acts as a reverse proxy, routing `/api/*` requests to the Flask API server
-- Serves as the single entry point to the system, accessible externally by clients and managemnet VM
+- Serves as the single entry point to the system, accessible externally by clients and management VM
 
 ### ⚙️ Application Layer — Flask API
 Handles all application logic
 - Exposes REST API endpoints (e.g. `GET /api/trades`)
-- Queries PostgreSQL database and returns  JSON responses
-- Not directly accessible externally, only from Nginx webserver and managemen tVM
+- Queries PostgreSQL database and returns JSON responses
+- Not directly accessible externally, only from Nginx webserver and management tVM
 
 ### 🗄️ Data Layer — PostgreSQL
-Stores structured tarding data
+Stores structured trading data
 - Not exposed to external networks
 - Accessible only via the Flask API server and management VM
 
@@ -81,12 +81,10 @@ Stores structured tarding data
 ## 🧠 Key Design Decisions & Security Considerations
 
 - **Single ingress point**: All traffic enters through Nginx
-- **Service isolation**: Each tier runs on a separate subnet
 - **No direct database access**: API mediates all database queries
-- **Least privilege design**: Services only access what they require
 - **systemd service management**: Ensures services persist across reboots 
 - **Management network separation**: Admin access is isolated from production traffic 
-- **Database isolation**: The API mediates all database access, preventing direct exposure
+
 
 ---
 ## 🎯 Purpose & Demonstrated Competencies
@@ -109,7 +107,7 @@ This project demonstrates:
 - JWT or API **key authentication** 
 - **Load balancing** at the web layer
 - **TLS encryption** between all layers
-- **Conainerise** services using Docker
+- **Containerise** services using Docker
 - Role-Based Access Control **(RBAC)** 
 - Centralised **audit logging** (ELK stack)
 - Introduce **monitoring** with Prometheus + Grafana
