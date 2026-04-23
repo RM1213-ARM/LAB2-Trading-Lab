@@ -4,6 +4,8 @@
 
 Firewall rules enforce **least privilege** by explicitly allowing only necessary traffic between network layers and blocking everything else.
 
+![Architecture Diagram](assets/firewall_rules.png)
+
 ## Network Access Requirements
 
 ### Web Server (192.168.30.10)
