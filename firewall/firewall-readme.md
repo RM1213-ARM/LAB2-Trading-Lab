@@ -29,19 +29,6 @@ Firewall rules enforce **least privilege** by explicitly allowing only necessary
 
 ---
 
-## Implementation Options
-
-### Option 1: UFW (Uncomplicated Firewall) - Easy
-Best for individual servers. Simple command-line tool.
-
-### Option 2: iptables - Powerful
-Lower-level, more control, requires persistence configuration.
-
-### Option 3: Router Firewall
-Centralized control at network gateway (router VM).
-
----
-
 ## Threat Model
 
 Without firewall rules:
@@ -52,7 +39,7 @@ Without firewall rules:
 With firewall rules:
 - ✅ Web layer isolated from database layer
 - ✅ API layer is the only path to data
-- ✅ Blast radius contained if one layer is compromised
+- ✅ Attack surface is contained if one layer is compromised
 
 ---
 
@@ -74,6 +61,8 @@ Browser                Nginx              Flask API           PostgreSQL
   │                      ←─ JSON ──────────   │                    │
   │                      │                   │                    │
   ← HTML + JSON ─────────                    │                    │
+
+MGMT <------------------------------------------------------------->
 ```
 
 Everything else = **BLOCKED**
