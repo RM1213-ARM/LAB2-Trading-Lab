@@ -12,8 +12,8 @@ Each layer of the application is seperated at the network level, enforcing contr
 | Network            | Subnet            | Purpose                     |
 |------------------|------------------|----------------------------|
 | Web Network       | 192.168.30.0/24  | Client access & web server |
-| API Network       | 192.168.35.0/24  | Backend application layer  |
-| Database Network  | 192.168.40.0/24  | Database communication     |
+| API Network       | 192.168.35.0/24  | Application layer  |
+| Database Network  | 192.168.40.0/24  | Database services    |
 | Management Network| 192.168.50.0/24  | Administrative access      |
 
 ---
@@ -46,33 +46,23 @@ Each layer of the application is seperated at the network level, enforcing contr
 ---
 ## 🔀 Routing & Connectivity
 
-A dedicated Router VM connects all isolated network segments.
+A dedicated Router VM connects all isolated network segments and acts as the default gateway for each subnet.
 
-- Each subnet uses the Router  as its default gateway
+- Each network uses the Router  as its gateway
 - The Router has one network interface per subnet
 - IP forwarding is enabled to allow inter-network communication
-
-All traffic between system layers flows through the router:
-
-- Web Server → API Server traffic is routed via the Router 
-- API Server → Database traffic is routed via the Router 
-
-This design centralises control and enables future firewall enforcement.
 
 ---
 
 ## 🔁 Communication Flow
-This section describes how the application request (e.g. `GET /api/trades`) traverses the network infrastructure.
+A typical request (`GET /api/trades`) flows through the system as follows:
 
-1. User connects to the Web Server (Nginx)
-2. Nginx sends API request to Router (default gateway)
-3. Router forwards request to API Server
-4. API Server processes the request
-5. API Server sends database query via the Router
-6. Router forwards request to Database Server
+1. Client sends request to the Web Server (Nginx)
+2. Nginx forwards the request to API server (via Router)
+3. API Server processes the request and queries the Database (via Router)
 7. Database responds to API Server (via Router)
 8. API returns data to Web Server (via Router)
-9. Web Server returns response to user
+9. Web Server returns response to client
 
 ---
 
@@ -82,7 +72,7 @@ This section describes how the application request (e.g. `GET /api/trades`) trav
 - Database is not accessible from the Web Network
 - Database access is further restricted in `pg_hba.conf`
 - All inter-network traffic passes through the Router 
-- Access between networks can be controlled via firewall rules on the router
+- Access between networks are controlled via firewall rules on the router
 - Only the API server and management network are permitted to communicate with PostgreSQL database  
 
 ---
