@@ -30,21 +30,6 @@ This system is fully segmented across multiple virtual networks, enforcing stric
 
 ---
 
-## 🎯 Purpose & Demonstrated Competencies
-
-This lab demonstrates practical skills in:
-
-- Managing services using systemd
-- Designing a multi-tier distributed system
-- Building a REST API using Python and Flask
-- Debugging cross-network communication issues
-- Implementing reverse proxy routing with Nginx
-- Configuring PostgreSQL with secure access controls
-- Integrating frontend, backend, and database layers
-- Configuring network segmentation in a virtualised environment
-
----
-
 ## ➡️ System Flow
 
 ![Architecture Diagram](assets/Architecture.png)
@@ -116,24 +101,39 @@ Stores and manages all trading data.
 
 ## 🧠 Key Design Decisions & Security Considerations
 
-- **Single ingress point**: Nginx acts as the secure entry point
-- **Least privilege**: PostgreSQL is not publicly exposed; API has restricted read access
+- **Single ingress point**: All traffic enters through Nginx
+- **Service isolation**: Each tier runs on a separate subnet
+- **No direct database access**: API mediates all database queries
+- **Least privilege design**: Services only access what they require
+- **systemd service management**: Ensures services persist across reboots 
+- **Management network separation**: Admin access is isolated from production traffic 
 - **Database isolation**: The API mediates all database access, preventing direct exposure
-- **Management network separation**: Administrative SSH access is isolated from application traffic
-- **systemd service management**: Ensures reliable process control and service persistence across reboots
+
+---
+## 🎯 Purpose & Demonstrated Competencies
+
+This project demonstrates:
+
+- Managing services using systemd
+- Designing a multi-tier distributed system
+- Building a REST API using Python and Flask
+- Debugging cross-network communication issues
+- Implementing reverse proxy routing with Nginx
+- Configuring PostgreSQL with secure access controls
+- Integrating frontend, backend, and database layers
+- Configuring network segmentation in a virtualised environment
 
 ---
 
 ## 🔮 Future Improvements
 
-- **Load balancing** at the web layer 
-- Enable **TLS encryption** between all layers
-- Implement **firewall rules** using `iptables` / `nftables`
-- JWT or API **key authentication** (authorised clients only)
-- Introduce **monitoring** (e.g Prometheus + Grafana) to detect anomalous traffic patterns
-- **Conainerise** services using Docker for reproducible deployments and resource isolation
-- Add Role-Based Access Control **(RBAC)** to enforce least-priviledge access accross layers
-- Centralised **audit logging** to record all APi calls, database queries and admin actions (ELK)
+- JWT or API **key authentication** 
+- **Load balancing** at the web layer
+- **TLS encryption** between all layers
+- **Conainerise** services using Docker
+- Role-Based Access Control **(RBAC)** 
+- Centralised **audit logging** (ELK stack)
+- Introduce **monitoring** with Prometheus + Grafana
 
 ---
 
@@ -143,6 +143,7 @@ Stores and manages all trading data.
 - ⚙️ [API Server](api-server/README.md)
 - 🗄️ [Database Server](db-server/README.md)
 - 🌐 [Network Design](network/network-design.md)
+- 
 
 
 ---
