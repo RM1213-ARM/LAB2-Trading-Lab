@@ -88,4 +88,3 @@ Everything else = **BLOCKED**
 | API server compromised | Attacker can accept arbitrary commands | Attacker limited to database only |
 | Database compromised | Attacker can probe other networks | Attacker can't reach web layer |
 
-The firewall creates an **air gap** between layers.
