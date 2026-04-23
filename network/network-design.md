@@ -3,7 +3,7 @@
 ## 📖 Overview
 
 This document describes the network architecture of the Trading System Lab.  
-The system is divided into isolated networks to simulate a secure, enterprise-style infrastructure.
+Each layer of the application is seperated at the network level, enforcing controlled communication between services.
 
 ---
 
