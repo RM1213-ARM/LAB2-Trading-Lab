@@ -122,7 +122,7 @@ This project demonstrates:
 - ⚙️ [API Server](api-server/README.md)
 - 🗄️ [Database Server](db-server/README.md)
 - 🌐 [Network Design](network/network-design.md)
-- 🌐 [Network Design](firewall/firewall.md)
+- 🌐 [Network Design](firewall/firewall-readme.md)
 
 
 ---
