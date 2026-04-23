@@ -80,33 +80,27 @@ Database access is restricted using `pg_hba.conf` (PostgreSQL Host-Based Authent
 
 ```conf
 # TYPE  DATABASE        USER            ADDRESS             METHOD
-# Allow API Server (read-only)
+# Allow API Server & Management VM
 host    trading_sheet   trader          192.168.35.20/32    md5
-
-# Allow Management Network (administration)
 host    trading_sheet   trader          192.168.50.10/32    md5
 ```
 
-**Why `/32` instead of `/24`?**
-
-- `/32` = Single IP address (192.168.35.20 exactly) — allows **only that one machine** (Least privilege)
+- `/32` = Ensures only specific IP addresses are allowed (least priviledge)
 
 ---
 
 ## 🔁 Data Flow
 
 1. **Flask API** (192.168.35.20) initiates a connection to PostgreSQL
-2. PostgreSQL checks `pg_hba.conf` —-> is 192.168.35.20 allowed? 
+2. PostgreSQL validates `pg_hba.conf` rules 
 3. PostgreSQL validates the username (`trader`) and password (`traderpass`)
 4. PostgreSQL grants access to the `trading_sheet` database
-5. Flask executes: `SELECT * FROM trades;`
-6. PostgreSQL returns the result set
-7. Flask formats the data as JSON
-8. JSON response travels back through Nginx to the browser
+5. Query is executed: `SELECT * FROM trades;`
+6. PostgreSQL returns results to Flask API Server
+7. Flask formats the response as JSON
+8. Data is sent back through Nginx to the client
 
-
-
-
+---
 
 ## ⚙️ Setup Instructions
 
@@ -115,7 +109,7 @@ host    trading_sheet   trader          192.168.50.10/32    md5
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib -y 
 ```
-### 2. Enable and start service
+### 2. Start and enable service
 ```bash
 sudo systemctl enable postgresql
 sudo systemctl start postgresql
@@ -124,14 +118,12 @@ sudo systemctl start postgresql
 ```bash
 sudo systemctl status postgresql
 ```
-
 ### 4. Create Database and User
 
 Log in as the PostgreSQL system user:
 ```bash
 sudo -u postgres psql
 ```
-
 Inside the PostgreSQL prompt (`postgres=#`), run:
 
 ```sql
@@ -146,7 +138,6 @@ GRANT CONNECT ON DATABASE trading_sheet TO trader;
 
 -- Switch to the database
 \c trading_sheet
-
 
 -- Create the trades table
 CREATE TABLE trades (
@@ -174,24 +165,16 @@ GRANT SELECT ON trades TO trader;
 **File: `/etc/postgresql/16/main/postgresql.conf`**
 
 ```conf
-listen_addresses = '*'
-port = 5432
+listen_addresses = '*' #listen on all network interfaces
+port = 5432 #listen on port 5432
 ```
 
-This tells PostgreSQL to:
-- Listen on all network interfaces (not just localhost)
-- Use port 5432 (default)
-
-**Why not just localhost?**
-- If PostgreSQL only listened on localhost (127.0.0.1), only connections from the same machine would be allowed
-- We need the API server (192.168.35.20) to connect from a different machine
-- But we'll restrict which IPs can actually authenticate via `pg_hba.conf`
+We will restrict which specific IPs can authenticate via `pg_hba.conf`
 
 ### 6. Configure Host-Based Authentication
 
 **File: `/etc/postgresql/16/main/pg_hba.conf`**
 
-Find the section with IPv4 local connections and **update these lines** (change `/24` to `/32`):
 ```
 ```conf
 host    trading_sheet    trader    192.168.35.20/32   md5
