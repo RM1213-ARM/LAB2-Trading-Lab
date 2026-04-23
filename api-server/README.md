@@ -31,7 +31,7 @@ All API traffic is internal and restricted to the API Network
 |--------------------|--------|
 | `app.py`           | Main Flask API application |
 | `requirements.txt` | Python dependencies |
-| `flask-api.service` | systemd service configuration |
+| `api.service` | systemd service configuration |
 
 ---
 
