@@ -93,54 +93,31 @@ sudo apt update
 sudo apt install nginx -y
 ```
 
-### 2. Replace the Virtual Host Configuration
-
-Copy your `default.conf` to:
+### 2. Deploy configuration files
 
 ```bash
 sudo cp default.conf /etc/nginx/sites-available/default
+sudo cp nginx.conf /etc/nginx/nginx.conf
 ```
-
-### 3. Place Frontend Files
-
-Copy your `index.html` to the web root:
-
+### 3. Deploy frontend dashboard
 ```bash
-sudo cp index.html /var/www/html/index.html
+sudo cp index.nginx-debian.html /var/www/html/index.nginx-debian.html
 ```
 
-If you have CSS or JavaScript files:
-```bash
-sudo cp style.css /var/www/html/style.css
-sudo cp app.js /var/www/html/app.js
-```
-
-### 4. Validate Nginx Configuration
-
-Before restarting, verify the syntax is correct:
-
+### 4. Validate Configuration
 ```bash
 sudo nginx -t
 ```
+Expected output:
+nginx: the configuration file syntax is ok
+nginx: configuration file test is successful
 
-**Expected output:**
-```
-nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-nginx: configuration file /etc/nginx/nginx.conf test is successful
-```
 
-If there are errors, fix them before continuing!
-
-### 5. Start and Enable Nginx
+### 5. Start, Enable and check status of Nginx
 
 ```bash
-# Start the service
 sudo systemctl start nginx
-
-# Enable on boot
 sudo systemctl enable nginx
-
-# Verify it's running
 sudo systemctl status nginx
 ```
 
@@ -149,45 +126,26 @@ sudo systemctl status nginx
 **From any machine with network access to 192.168.30.10:**
 
 ```bash
-# Test static file serving
 curl http://192.168.30.10
 
 # Should return HTML content of index.html
 ```
 
 **Open in browser:**
-```
+```bash
 http://192.168.30.10
+
+# Should see the "Trading Dashboard" with a "Load Trades" button.
 ```
-
-You should see the "Trading Dashboard" with a "Load Trades" button.
-
 ---
 
 ## 🔧 Service Management
 
 ```bash
-# View current status
 sudo systemctl status nginx
-
-# Start Nginx
 sudo systemctl start nginx
-
-# Stop Nginx
 sudo systemctl stop nginx
-
-# Restart (stops then starts)
 sudo systemctl restart nginx
-
-# Reload configuration without downtime
-# This gracefully restarts only workers, keeps connections alive
 sudo systemctl reload nginx
-
-# Enable auto-start on boot
-sudo systemctl enable nginx
-
-# Disable auto-start on boot
-sudo systemctl disable nginx
 ```
-
 ---
