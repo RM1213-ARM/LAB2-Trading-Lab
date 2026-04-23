@@ -75,14 +75,15 @@ pip install -r requirements.txt
 python3 app.py
 ```
 ---
-## Run as a systemd service
 
+## Run as a systemd service
+```bash
 sudo cp api.service /etc/systemd/system/
 sudo systemctl daemon-reexec
 sudo systemctl enable api
 sudo systemctl start api
 sudo systemctl status api
-
+```
 ---
 
 ## 🔌 API Endpoint Example
