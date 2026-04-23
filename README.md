@@ -60,41 +60,33 @@ For a detailed breakdown of subnets, VM placement, and security design, see:
 ---
 # 🧩 Architecture Style
 
-This system follows a three-tier architecture pattern with strict network segmentation:
+This system follows a three-tier architecture deployed across insolated virtual networks:
 
-- **Presentation Layer** (Nginx + Frontend)
-- **Application Layer** (Flask API)
-- **Data Layer** (PostgreSQL)
+- **Presentation Layer** - (Nginx + Frontend)
+- **Application Layer** - (Flask API)
+- **Data Layer** - (PostgreSQL)
 
 Each layer is isolated in a separate subnet and communicates only through controlled network paths.
 
----
-
 ### 🌐 Web Layer — Nginx
 Provides a secure interface between external users and internal backend services.
-
 - Serves static frontend files (HTML, CSS, JavaScript)
 - Acts as a reverse proxy, routing `/api/*` requests to the Flask API server
-- Single entry point for all client traffic — backend infrastructure is never exposed directly
+- Serves as the single entry point to the system, accessible externally by clients and managemnet VM
 
 ---
 
 ### ⚙️ Application Layer — Flask API
-Handles all business logic and API functionality.
-
-- Processes requests forwarded from Nginx
+Handles all application logic
 - Exposes REST API endpoints (e.g. `GET /api/trades`)
-- Queries PostgreSQL and returns structured JSON responses
-- Isolated on its own network segment — not reachable directly from clients
+- Queries PostgreSQL database and returns  JSON responses
+- Not directly accessible externally, only from Nginx webserver and managemen tVM
 
 ---
 
 ### 🗄️ Data Layer — PostgreSQL
-Stores and manages all trading data.
-
-- Maintains structured trading datasets
-- Not exposed to the Web Network or external clients
-- Enforces data integrity, consistency, and security
+Stores structured tarding data
+- Not exposed to external networks
 - Accessible only via the Flask API server and management VM
 
 ---
