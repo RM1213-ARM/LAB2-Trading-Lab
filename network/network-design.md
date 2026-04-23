@@ -6,6 +6,8 @@ This document describes the network architecture of the Trading System Lab.
 Each layer of the application is seperated at the network level, enforcing controlled communication between services.
 
 ---
+![Network Topology](/assets/Topology.png)
+
 
 ## 🧩 Network Segmentation
 
@@ -76,7 +78,3 @@ A typical request (`GET /api/trades`) flows through the system as follows:
 - Only the API server and management network are permitted to communicate with PostgreSQL database  
 
 ---
-
-## 🖼️ Network Diagram
-
-![Network Topology](/assets/Topology.png)
