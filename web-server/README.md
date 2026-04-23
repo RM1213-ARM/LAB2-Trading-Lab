@@ -2,9 +2,9 @@
 
 ## 📖 Overview
 
-The web server runs **Nginx** on Ubuntu, acting as the single entry point for all client traffic.
+The web server runs **Nginx** on Ubuntu and acts as the single entry point for all client traffic.
 
-It serves the static frontend dashboard and reverse proxies API requests to the Flask backend located on the API Network (192.168.35.0/24)
+It serves a static HTML dashboard and reverse proxies API requests to the Flask backend running on the API Network (192.168.35.0/24)
 
 ---
 
@@ -33,9 +33,18 @@ It serves the static frontend dashboard and reverse proxies API requests to the 
 
 ---
 
+## ⚙️ Core Responsibilities
+
+- Serves static HTML dashboard (`index.nginx-debian.html`)
+- Acts as a reverse proxy for `/api/*` requests to 
+- Routes API traffic to the Flask backend (`http://192.168.35.20:5000`)
+- Provides the single external entry point into the system
+
+---
+
 ## ➡️ Request Flow
 
-### Scenario: User clicks "Load Trades" button
+### A typical request to retrieve trading data follows this path:
  ```
 Browser                    Nginx                  Flask API              PostgreSQL
   │                          │                        │                      │
@@ -51,28 +60,19 @@ Browser                    Nginx                  Flask API              Postgre
 ```
 **Detailed steps:**
 
-1. **Browser sends request** → `GET http://192.168.30.10/api/trades`
+1. **Client sends request** → `GET http://192.168.30.10/api/trades`
 2. **Nginx receives request** on port 80
 3. **Nginx evaluates the path:**
    - Matches `location /api/` rule
    - **Strips** `/api` from the URL (due to trailing slash in `proxy_pass`)
-4. **Nginx forwards to Flask** → `GET http://192.168.35.20:5000/trades`
+4. **Nginx forwards to Flask API Server** → `GET http://192.168.35.20:5000/trades`
    - Includes headers: `X-Real-IP`, `X-Forwarded-For` (preserves client info)
 5. **Flask processes request** → Queries PostgreSQL
 6. - `Select * FROM trading_sheet`
 7. **PostgreSQL returns data** → Flask formats as JSON
 8. **Nginx receives response** from Flask
 9. **Nginx forwards response** back to browser
-10. **Browser renders** the trades table
-
----
-
-## ⚙️ Nginx Behaviour
-
-- **Static files** — serves `index.html`, `style.css`, and `app.js` directly
-- **Reverse proxy** — forwards `/api/*` requests to `http://192.168.35.20:5000`
-- **Single ingress** — backend infrastructure is never exposed directly to clients
-
+10. **Client renders** the trades table in browser
 ---
 
 ## 🔒 Security Considerations
