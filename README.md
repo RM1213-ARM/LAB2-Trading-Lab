@@ -65,15 +65,11 @@ Provides a secure interface between external users and internal backend services
 - Acts as a reverse proxy, routing `/api/*` requests to the Flask API server
 - Serves as the single entry point to the system, accessible externally by clients and managemnet VM
 
----
-
 ### ⚙️ Application Layer — Flask API
 Handles all application logic
 - Exposes REST API endpoints (e.g. `GET /api/trades`)
 - Queries PostgreSQL database and returns  JSON responses
 - Not directly accessible externally, only from Nginx webserver and managemen tVM
-
----
 
 ### 🗄️ Data Layer — PostgreSQL
 Stores structured tarding data
@@ -126,7 +122,7 @@ This project demonstrates:
 - ⚙️ [API Server](api-server/README.md)
 - 🗄️ [Database Server](db-server/README.md)
 - 🌐 [Network Design](network/network-design.md)
-- 
+- 🌐 [Network Design](firewall/firewall.md)
 
 
 ---
