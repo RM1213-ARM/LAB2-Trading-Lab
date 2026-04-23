@@ -2,7 +2,9 @@
 
 ## 📖 Overview
 
-The web server runs **Nginx** on Ubuntu, acting as the single entry point for all client traffic. It serves the static frontend files and reverse proxies all `/api/*` requests initiated on the dashboard and sends it to the Flask API server on the API Network (192.168.35.0/24)
+The web server runs **Nginx** on Ubuntu, acting as the single entry point for all client traffic.
+
+It serves the static frontend dashboard and reverse proxies API requests to the Flask backend located on the API Network (192.168.35.0/24)
 
 ---
 
@@ -75,9 +77,9 @@ Browser                    Nginx                  Flask API              Postgre
 
 ## 🔒 Security Considerations
 
-- Backend API server is not reachable from the Web Network directly
-- Nginx acts as a barrier — clients only ever communicate with the web server
-- Only HTTP (port 80) is exposed externally.
+- Backend API server is not reachable from clients
+- Only HTTP (Port 80) is exposed externally
+- Nginx acts as a controlled gateway to backend services
 - No database credentials or backend logic are present on this VM
 
 ---
