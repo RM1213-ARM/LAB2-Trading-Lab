@@ -165,8 +165,8 @@ GRANT SELECT ON trades TO trader;
 **File: `/etc/postgresql/16/main/postgresql.conf`**
 
 ```conf
-listen_addresses = '*' #listen on all network interfaces
-port = 5432 #listen on port 5432
+listen_addresses = '*'                     #listen on all network interfaces
+port = 5432                                #listen on port 5432
 ```
 
 We will restrict which specific IPs can authenticate via `pg_hba.conf`
