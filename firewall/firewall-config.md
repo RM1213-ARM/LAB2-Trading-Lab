@@ -88,27 +88,6 @@ nc -zv 192.168.35.20 5000  # Will timeout
  
 ## Viewing/Modifying Rules
  
-### UFW
- 
-```bash
-# View rules
-sudo ufw status numbered
- 
-# Delete a rule
-sudo ufw delete allow 80/tcp
- 
-# Reload
-sudo ufw reload
- 
-# Disable temporarily (emergency access)
-sudo ufw disable
- 
-# Re-enable
-sudo ufw enable
-```
- 
-### iptables
- 
 ```bash
 # View all rules
 sudo iptables -L -n -v
@@ -132,30 +111,6 @@ sudo netfilter-persistent save
 ---
  
 ## Troubleshooting
- 
-### Rules Not Persisting After Reboot
- 
-```bash
-# UFW
-sudo ufw enable  # Re-enable UFW
- 
-# iptables
-sudo netfilter-persistent save
-sudo systemctl enable netfilter-persistent
-```
- 
-### Accidentally Locked Out (SSH not working)
- 
-On the VM console:
-```bash
-# UFW
-sudo ufw disable
- 
-# iptables
-sudo iptables -F  # Flush all rules
-```
- 
-Then reconfigure properly.
  
 ### Testing if a Port is Blocked
  
